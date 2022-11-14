@@ -313,12 +313,12 @@ if len(buffer_sizes_all) > 0:
         # print(os.system(iperf3_command), file=log_file)
         # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
         sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-        console_lines = sp.stdout.readlines()  
+        console_lines = sp.stdout.readlines()
         for i in console_lines:
-            print(i)
+            print(i.strip().decode("utf-8"))
         console_lines_last = console_lines[-5:-2]
         for i in console_lines_last:
-            log_file.write(str(i) + "\n")
+            log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
 else:
     iperf3_command = "iperf3 -c"
     iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth
@@ -326,12 +326,12 @@ else:
     # print(os.system(iperf3_command), file=log_file)
     # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
     sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-    console_lines = sp.stdout.readlines()  
+    console_lines = sp.stdout.readlines()
     for i in console_lines:
-        print(i)
+        print(i.strip().decode("utf-8"))
     console_lines_last = console_lines[-5:-2]
     for i in console_lines_last:
-        log_file.write(str(i) + "\n")
+        log_file.write(str(i.strip().decode("utf-8")) + "\n")
 
 # 显示结束时间
 end_time = time.localtime(time.time())
