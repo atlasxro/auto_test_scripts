@@ -136,19 +136,19 @@ while True:
 #         trans_dire_info = "传输方向为: 正向"
 #         print(trans_dire_info)
 #         log_file.write(trans_dire_info + "; ")
-#         trans_dire = ""
+#         trans_dires = ""
 #         break
 #     elif trans_dire == "r":
 #         trans_dire_info = "传输方向为: 反向(-R)"
 #         print(trans_dire_info)
 #         log_file.write(trans_dire_info + "; ")
-#         trans_dire = "-R"
+#         trans_dires = "-R"
 #         break
 #     elif trans_dire == "d":
 #         trans_dire_info = "传输方向为: 双向(-d)"
 #         print(trans_dire_info)
 #         log_file.write(trans_dire_info + "; ")
-#         trans_dire = "-d"
+#         trans_dires = "-d"
 #         break
 #     else:
 #         trans_dire = input("请选择正确的传输方向(正向/反向/双向[p/r/d]): ")
@@ -177,7 +177,7 @@ while True:
                         trans_dires.append(trans_dire)
                         break
                 else:
-                    bandwidth = input("请输入正确的传输方向(正向/反向/双向[p/r/d])): ")
+                    trans_dire = input("请输入正确的传输方向(正向/反向/双向[p/r/d])): ")
                     continue
     else:
         print("已全部选择！")
@@ -189,7 +189,12 @@ print(trans_dires_info)
 log_file.write(str(trans_dires) + "; ")
 trans_dire_all = []
 for i in trans_dires:
-    trans_dire_all.append(" -" + str(i))
+    if i == "p":
+        trans_dire_all.append(" ")
+    elif i == "r":
+        trans_dire_all.append(" -R")
+    else:
+        trans_dire_all.append(" -d")
         
 #----------选择每次传输的持续时间----------
 trans_time = input("请输入传输持续时间(s): ")
@@ -298,7 +303,7 @@ for G in bandwidth_G:
     bandwidth_sizes.append(G)
 
 #再次整理并打印bandwidth信息
-bandwidth_all = []#定义一个用到命令中的buffer size变量数组
+bandwidth_all = []#定义一个用到命令中的bandwidth变量数组
 if len(bandwidth_sizes) == 0:
     bandwidth_info = "采用默认bandwidth参数进行测试"
     print(bandwidth_info)
@@ -309,7 +314,7 @@ else:
     print(bandwidth_info)
     log_file.write(bandwidth_info + "; ")
     for i in bandwidth_sizes:
-        bandwidth_all.append("-l " + str(i))
+        bandwidth_all.append("-b " + str(i))
    
 #----------选择是否需要并行----------
 # is_parallel = input("输入需要的并行传输数[0(不需要)]: ")
@@ -339,8 +344,8 @@ parallel = input("输入需要的并行传输数[0(不需要)]: ")
 while True:
     if len(parallels) == 0:
         if parallel.isnumeric() and int(parallel) == 0:
-            parallel_info = "采用parallel传输"
-            print(parallel_info)
+            # parallel_info = "不采用parallel传输"
+            # print(parallel_info)
             parallel = ""
             break
         else:
@@ -369,8 +374,8 @@ while True:
 
 # parallels = parallels.sort()
 
-#再次整理并打印buffer信息
-parallel_all = []#定义一个用到命令中的buffer size变量数组
+#再次整理并打印parallels信息
+parallel_all = []#定义一个用到命令中的parallels变量数组
 if len(parallels) == 0:
     parallel_info = "不采用parallel传输"
     print(parallel_info)
@@ -432,49 +437,53 @@ while True:
 buffer_size_b = []
 buffer_size_k = []
 buffer_sizes = []
-for b in buffers:
-    if b.endswith("b"):
-        b = b[0:-1]
-        buffer_size_b.append(int(b))
-
-buffer_size_b.sort()
-# print(buffer_size_b)
-
-for b in buffer_size_b:
-    b = str(b) + "b"
-    buffer_sizes.append(b)
-
-for k in buffers:
-    if k.endswith("k"):
-        k = k[0:-1]
-        buffer_size_k.append(int(k))
-        
-buffer_size_k.sort()
-# print(buffer_size_k)
-
-#b->k整理好的 buffer_sizes
-for k in buffer_size_k:
-    k = str(k) + "k"
-    buffer_sizes.append(k)
-
-#再次整理并打印buffer信息
 buffer_sizes_all = []#定义一个用到命令中的buffer size变量数组
-if len(buffers) == 0:
-    buffer_info = "采用默认Buffer size传输"
-    print(buffer_info)
-    log_file.write(buffer_info + "; ")
-    buffer_sizes_all = ""
-else: 
-    buffer_info = "采用" + str(len(buffer_sizes)) +"种Buffer size传输: " + str(buffer_sizes)
-    print(buffer_info)
-    log_file.write(buffer_info + "; ")
-    for i in buffer_sizes:
-        buffer_sizes_all.append("-l " + str(i))
-    # print(buffer_sizes_all)
+if len(buffers) > 0:
+    for b in buffers:
+        if b.endswith("b"):
+            b = b[0:-1]
+            buffer_size_b.append(int(b))
+
+    buffer_size_b.sort()
+    # print(buffer_size_b)
+
+    for b in buffer_size_b:
+        b = str(b) + "b"
+        buffer_sizes.append(b)
+
+    for k in buffers:
+        if k.endswith("k"):
+            k = k[0:-1]
+            buffer_size_k.append(int(k))
+        
+    buffer_size_k.sort()
+    # print(buffer_size_k)
+
+    #b->k整理好的 buffer_sizes
+    for k in buffer_size_k:
+        k = str(k) + "k"
+        buffer_sizes.append(k)
+
+    #再次整理并打印buffer信息
+    if len(buffers) == 0:
+        buffer_info = "采用默认Buffer size传输"
+        print(buffer_info)
+        log_file.write(buffer_info + "; ")
+        buffer_sizes_all = ""
+    else: 
+        buffer_info = "采用" + str(len(buffer_sizes)) +"种Buffer size传输: " + str(buffer_sizes)
+        print(buffer_info)
+        log_file.write(buffer_info + "; ")
+        for i in buffer_sizes:
+            buffer_sizes_all.append("-l " + str(i))
+        # print(buffer_sizes_all)
+else:
+    buffer_sizes_all.append(" ")
 
 
 #运行iperf
-for trains_direi in trans_dire_all:
+for trans_direi in trans_dire_all:
+# for trains_direi in trans_dires:
     if len(parallel_all) > 0:
         for is_parallel in parallel_all:
             if len(bandwidth_all) > 0:
@@ -482,7 +491,7 @@ for trains_direi in trans_dire_all:
                     if len(buffer_sizes_all) > 0:
                         for buffer_size in buffer_sizes_all:
                             iperf3_command = "iperf3 -c"
-                            iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth_i + " " + buffer_size + " " + is_parallel
+                            iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + bandwidth_i + " " + buffer_size + " " + is_parallel
                             print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
                             # print(os.system(iperf3_command), file=log_file)
                             # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -495,7 +504,7 @@ for trains_direi in trans_dire_all:
                                 log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
                     else:
                         iperf3_command = "iperf3 -c"
-                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth_i + " " + is_parallel
+                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + bandwidth_i + " " + is_parallel
                         print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
                         # print(os.system(iperf3_command), file=log_file)
                         # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -510,7 +519,7 @@ for trains_direi in trans_dire_all:
                 if len(buffer_sizes_all) > 0:
                         for buffer_size in buffer_sizes_all:
                             iperf3_command = "iperf3 -c"
-                            iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth + " " + buffer_size + " " + is_parallel
+                            iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + buffer_size + " " + is_parallel
                             print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
                             # print(os.system(iperf3_command), file=log_file)
                             # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -523,7 +532,7 @@ for trains_direi in trans_dire_all:
                                 log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
                 else:
                     iperf3_command = "iperf3 -c"
-                    iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth + " " + is_parallel
+                    iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + is_parallel
                     print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
                     # print(os.system(iperf3_command), file=log_file)
                     # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -540,7 +549,7 @@ for trains_direi in trans_dire_all:
                 if len(buffer_sizes_all) > 0:
                     for buffer_size in buffer_sizes_all:
                         iperf3_command = "iperf3 -c"
-                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth_i + " " + buffer_size
+                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + bandwidth_i + " " + buffer_size
                         print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
                         # print(os.system(iperf3_command), file=log_file)
                         # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -553,7 +562,7 @@ for trains_direi in trans_dire_all:
                             log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
                 else:
                     iperf3_command = "iperf3 -c"
-                    iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth_i
+                    iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + bandwidth_i
                     print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
                     # print(os.system(iperf3_command), file=log_file)
                     # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -568,7 +577,7 @@ for trains_direi in trans_dire_all:
             if len(buffer_sizes_all) > 0:
                     for buffer_size in buffer_sizes_all:
                         iperf3_command = "iperf3 -c"
-                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth + " " + buffer_size
+                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + buffer_size
                         print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
                         # print(os.system(iperf3_command), file=log_file)
                         # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -581,7 +590,7 @@ for trains_direi in trans_dire_all:
                             log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
             else:
                 iperf3_command = "iperf3 -c"
-                iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth
+                iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time
                 print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
                 # print(os.system(iperf3_command), file=log_file)
                 # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
