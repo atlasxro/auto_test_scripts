@@ -130,29 +130,66 @@ while True:
 
 #----------选择传输方向正向/反向/双向----------
 # trans_dires =[]
-trans_dire = input("请选择传输方向(正向/反向/双向[p/r/d)]): ")
+# trans_dire = input("请选择传输方向(正向/反向/双向[p/r/d)]): ")
+# while True:
+#     if trans_dire == "p":
+#         trans_dire_info = "传输方向为: 正向"
+#         print(trans_dire_info)
+#         log_file.write(trans_dire_info + "; ")
+#         trans_dire = ""
+#         break
+#     elif trans_dire == "r":
+#         trans_dire_info = "传输方向为: 反向(-R)"
+#         print(trans_dire_info)
+#         log_file.write(trans_dire_info + "; ")
+#         trans_dire = "-R"
+#         break
+#     elif trans_dire == "d":
+#         trans_dire_info = "传输方向为: 双向(-d)"
+#         print(trans_dire_info)
+#         log_file.write(trans_dire_info + "; ")
+#         trans_dire = "-d"
+#         break
+#     else:
+#         trans_dire = input("请选择正确的传输方向(正向/反向/双向[p/r/d]): ")
+#         continue
+trans_dires = []
+trans_dire = input("请选择传输方向(正向/反向/双向[p/r/d])): ")
 while True:
-    if trans_dire == "p":
-        trans_dire_info = "传输方向为: 正向"
-        print(trans_dire_info)
-        log_file.write(trans_dire_info + "; ")
-        trans_dire = ""
-        break
-    elif trans_dire == "r":
-        trans_dire_info = "传输方向为: 反向(-R)"
-        print(trans_dire_info)
-        log_file.write(trans_dire_info + "; ")
-        trans_dire = "-R"
-        break
-    elif trans_dire == "d":
-        trans_dire_info = "传输方向为: 双向(-d)"
-        print(trans_dire_info)
-        log_file.write(trans_dire_info + "; ")
-        trans_dire = "-d"
-        break
+    if len(trans_dires) == 0:
+        if trans_dire == "p" or trans_dire == "r" or trans_dire == "d":
+            trans_dires.append(trans_dire)
+            continue
+        else:
+            trans_dire = input("请输入正确的传输方向(正向/反向/双向[p/r/d])): ")
+            continue
+    elif len(trans_dires) > 0 and len(trans_dires) < 3:
+        trans_dire = input("是否还需测试其余传输方向(正向/反向/双向/退出[p/r/d/q])): ")
+        if trans_dire == "q":
+            break
+        else:
+            while True:
+                if trans_dire == "p" or trans_dire == "r" or trans_dire == "d":
+                    if trans_dire in trans_dires:
+                        trans_dire = input("此传输方向已选择, 请再选一个[p/r/d]: ")
+                        continue
+                    else:
+                        trans_dires.append(trans_dire)
+                        break
+                else:
+                    bandwidth = input("请输入正确的传输方向(正向/反向/双向[p/r/d])): ")
+                    continue
     else:
-        trans_dire = input("请选择正确的传输方向(正向/反向/双向[p/r/d]): ")
-        continue
+        print("已全部选择！")
+        break
+
+#再次整理并打印trans_dire信息
+trans_dires_info = "测试" + str(len(trans_dires)) +"种传输方向: " + str(trans_dires)
+print(trans_dires_info)
+log_file.write(str(trans_dires) + "; ")
+trans_dire_all = []
+for i in trans_dires:
+    trans_dire_all.append(" -" + str(i))
         
 #----------选择每次传输的持续时间----------
 trans_time = input("请输入传输持续时间(s): ")
@@ -195,8 +232,8 @@ bandwidth = input("请输入bandwidth[M/G/默认(0)]: ")
 while True:
     if len(bandwidths) == 0:
         if bandwidth.isnumeric() and int(bandwidth) == 0:
-            bandwidth_info = "采用默认bandwidth传输"
-            print(bandwidth_info)
+            # bandwidth_info = "采用默认bandwidth传输"
+            # print(bandwidth_info)
             bandwidth = ""
             break
         else:
@@ -263,39 +300,88 @@ for G in bandwidth_G:
 #再次整理并打印bandwidth信息
 bandwidth_all = []#定义一个用到命令中的buffer size变量数组
 if len(bandwidth_sizes) == 0:
-    bandwidth_info = "采用默认bandwidth传输"
+    bandwidth_info = "采用默认bandwidth参数进行测试"
     print(bandwidth_info)
     log_file.write(bandwidth_info + "; ")
     bandwidth_all = ""
 else: 
-    bandwidth_info = "采用" + str(len(bandwidth_sizes)) +"种Buffer size传输: " + str(bandwidth_sizes)
+    bandwidth_info = "采用" + str(len(bandwidth_sizes)) +"种bandwidth参数进行测试: " + str(bandwidth_sizes)
     print(bandwidth_info)
     log_file.write(bandwidth_info + "; ")
     for i in bandwidth_sizes:
         bandwidth_all.append("-l " + str(i))
    
 #----------选择是否需要并行----------
-is_parallel = input("输入需要的并行传输数[0(不需要)]: ")
+# is_parallel = input("输入需要的并行传输数[0(不需要)]: ")
+# while True:
+#     if is_parallel.isnumeric():
+#         if int(is_parallel) > 0:
+#             is_parallel_info = "并行传输: " + is_parallel
+#             print(is_parallel_info)
+#             log_file.write(is_parallel_info + "; ")
+#             is_parallel = "-P " + is_parallel
+#             break
+#         elif int(is_parallel) == 0:
+#             is_parallel_info = "无并行传输"
+#             print(is_parallel_info)
+#             log_file.write(is_parallel_info + "; ")
+#             is_parallel = ""
+#             break
+#         else:
+#             is_parallel = input("输入格式有误，请重新输入: ")
+#             continue
+#     else:
+#         is_parallel = input("输入格式有误，请重新输入: ")
+#         continue   
+
+parallels = []
+parallel = input("输入需要的并行传输数[0(不需要)]: ")
 while True:
-    if is_parallel.isnumeric():
-        if int(is_parallel) > 0:
-            is_parallel_info = "并行传输: " + is_parallel
-            print(is_parallel_info)
-            log_file.write(is_parallel_info + "; ")
-            is_parallel = "-P " + is_parallel
-            break
-        elif int(is_parallel) == 0:
-            is_parallel_info = "无并行传输"
-            print(is_parallel_info)
-            log_file.write(is_parallel_info + "; ")
-            is_parallel = ""
+    if len(parallels) == 0:
+        if parallel.isnumeric() and int(parallel) == 0:
+            parallel_info = "采用parallel传输"
+            print(parallel_info)
+            parallel = ""
             break
         else:
-            is_parallel = input("输入格式有误，请重新输入: ")
-            continue
+            if parallel.isnumeric() and int(parallel) > 0:
+                parallels.append(parallel)
+
+            else:
+                parallel = input("请按正确的格式输入parallel: ")
+                continue
     else:
-        is_parallel = input("输入格式有误，请重新输入: ")
-        continue   
+        parallel = input("是否还需其余parallel[q(退出)]: ")
+        if parallel == "q":
+            break
+        else:
+            while True:
+                if parallel.isnumeric() and int(parallel) > 0:
+                    if parallel in parallels:
+                        parallel = input("此parallel已存在, 请再选一个: ")
+                        continue
+                    else:
+                        parallels.append(parallel)
+                        break
+                else:
+                    parallel = input("请按正确的格式输入parallel: ")
+                    continue
+
+# parallels = parallels.sort()
+
+#再次整理并打印buffer信息
+parallel_all = []#定义一个用到命令中的buffer size变量数组
+if len(parallels) == 0:
+    parallel_info = "不采用parallel传输"
+    print(parallel_info)
+    log_file.write(parallel_info + "; ")
+    parallel_all = ""
+else: 
+    parallel_info = "采用" + str(len(parallels)) +"种Buffer size传输: " + str(parallels)
+    print(parallel_info)
+    log_file.write(parallel_info + "; ")
+    for i in parallels:
+        parallel_all.append("-P " + str(i))
 
 #----------获取需要测试的buffer size----------
 buffers = []
@@ -388,33 +474,125 @@ else:
 
 
 #运行iperf
-if len(buffer_sizes_all) > 0:
-    for buffer_size in buffer_sizes_all:
-        iperf3_command = "iperf3 -c"
-        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth + " " + buffer_size
-        print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
-        # print(os.system(iperf3_command), file=log_file)
-        # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
-        sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-        console_lines = sp.stdout.readlines()
-        for i in console_lines:
-            print(i.strip().decode("utf-8"))
-        console_lines_last = console_lines[-5:-2]
-        for i in console_lines_last:
-            log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
-else:
-    iperf3_command = "iperf3 -c"
-    iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth
-    print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
-    # print(os.system(iperf3_command), file=log_file)
-    # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
-    sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-    console_lines = sp.stdout.readlines()
-    for i in console_lines:
-        print(i.strip().decode("utf-8"))
-    console_lines_last = console_lines[-5:-2]
-    for i in console_lines_last:
-        log_file.write(str(i.strip().decode("utf-8")) + "\n")
+for trains_direi in trans_dire_all:
+    if len(parallel_all) > 0:
+        for is_parallel in parallel_all:
+            if len(bandwidth_all) > 0:
+                for bandwidth_i in bandwidth_all:
+                    if len(buffer_sizes_all) > 0:
+                        for buffer_size in buffer_sizes_all:
+                            iperf3_command = "iperf3 -c"
+                            iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth_i + " " + buffer_size + " " + is_parallel
+                            print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
+                            # print(os.system(iperf3_command), file=log_file)
+                            # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
+                            sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+                            console_lines = sp.stdout.readlines()
+                            for i in console_lines:
+                                print(i.strip().decode("utf-8"))
+                            console_lines_last = console_lines[-5:-2]
+                            for i in console_lines_last:
+                                log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
+                    else:
+                        iperf3_command = "iperf3 -c"
+                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth_i + " " + is_parallel
+                        print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
+                        # print(os.system(iperf3_command), file=log_file)
+                        # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
+                        sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+                        console_lines = sp.stdout.readlines()
+                        for i in console_lines:
+                            print(i.strip().decode("utf-8"))
+                        console_lines_last = console_lines[-5:-2]
+                        for i in console_lines_last:
+                            log_file.write(str(i.strip().decode("utf-8")) + "\n")
+            else:
+                if len(buffer_sizes_all) > 0:
+                        for buffer_size in buffer_sizes_all:
+                            iperf3_command = "iperf3 -c"
+                            iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth + " " + buffer_size + " " + is_parallel
+                            print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
+                            # print(os.system(iperf3_command), file=log_file)
+                            # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
+                            sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+                            console_lines = sp.stdout.readlines()
+                            for i in console_lines:
+                                print(i.strip().decode("utf-8"))
+                            console_lines_last = console_lines[-5:-2]
+                            for i in console_lines_last:
+                                log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
+                else:
+                    iperf3_command = "iperf3 -c"
+                    iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth + " " + is_parallel
+                    print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
+                    # print(os.system(iperf3_command), file=log_file)
+                    # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
+                    sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+                    console_lines = sp.stdout.readlines()
+                    for i in console_lines:
+                        print(i.strip().decode("utf-8"))
+                    console_lines_last = console_lines[-5:-2]
+                    for i in console_lines_last:
+                        log_file.write(str(i.strip().decode("utf-8")) + "\n")
+    else:
+        if len(bandwidth_all) > 0:
+            for bandwidth_i in bandwidth_all:
+                if len(buffer_sizes_all) > 0:
+                    for buffer_size in buffer_sizes_all:
+                        iperf3_command = "iperf3 -c"
+                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth_i + " " + buffer_size
+                        print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
+                        # print(os.system(iperf3_command), file=log_file)
+                        # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
+                        sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+                        console_lines = sp.stdout.readlines()
+                        for i in console_lines:
+                            print(i.strip().decode("utf-8"))
+                        console_lines_last = console_lines[-5:-2]
+                        for i in console_lines_last:
+                            log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
+                else:
+                    iperf3_command = "iperf3 -c"
+                    iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth_i
+                    print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
+                    # print(os.system(iperf3_command), file=log_file)
+                    # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
+                    sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+                    console_lines = sp.stdout.readlines()
+                    for i in console_lines:
+                        print(i.strip().decode("utf-8"))
+                    console_lines_last = console_lines[-5:-2]
+                    for i in console_lines_last:
+                        log_file.write(str(i.strip().decode("utf-8")) + "\n")
+        else:
+            if len(buffer_sizes_all) > 0:
+                    for buffer_size in buffer_sizes_all:
+                        iperf3_command = "iperf3 -c"
+                        iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth + " " + buffer_size
+                        print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
+                        # print(os.system(iperf3_command), file=log_file)
+                        # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
+                        sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+                        console_lines = sp.stdout.readlines()
+                        for i in console_lines:
+                            print(i.strip().decode("utf-8"))
+                        console_lines_last = console_lines[-5:-2]
+                        for i in console_lines_last:
+                            log_file.write(str(i.strip().decode("utf-8")) + "\n") #去除输出的转义符'\n'以及开头的字节数组标志'b'
+            else:
+                iperf3_command = "iperf3 -c"
+                iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_dire + " " + trans_time + " " + bandwidth
+                print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
+                # print(os.system(iperf3_command), file=log_file)
+                # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
+                sp = subprocess.Popen(iperf3_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+                console_lines = sp.stdout.readlines()
+                for i in console_lines:
+                    print(i.strip().decode("utf-8"))
+                console_lines_last = console_lines[-5:-2]
+                for i in console_lines_last:
+                    log_file.write(str(i.strip().decode("utf-8")) + "\n")
+
 
 # 显示结束时间
 end_time = time.localtime(time.time())
