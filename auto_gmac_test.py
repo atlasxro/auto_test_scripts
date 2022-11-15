@@ -492,6 +492,7 @@ for trans_direi in trans_dire_all:
                         for buffer_size in buffer_sizes_all:
                             iperf3_command = "iperf3 -c"
                             iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + bandwidth_i + " " + buffer_size + " " + is_parallel
+                            print("\n" + "\n"+ "----------" + iperf3_command + "----------")
                             print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
                             # print(os.system(iperf3_command), file=log_file)
                             # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -505,6 +506,7 @@ for trans_direi in trans_dire_all:
                     else:
                         iperf3_command = "iperf3 -c"
                         iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + bandwidth_i + " " + is_parallel
+                        print("\n" + "\n"+ "----------" + iperf3_command + "----------")
                         print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
                         # print(os.system(iperf3_command), file=log_file)
                         # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -520,6 +522,7 @@ for trans_direi in trans_dire_all:
                         for buffer_size in buffer_sizes_all:
                             iperf3_command = "iperf3 -c"
                             iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + buffer_size + " " + is_parallel
+                            print("\n" + "\n"+ "----------" + iperf3_command + "----------")
                             print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
                             # print(os.system(iperf3_command), file=log_file)
                             # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -533,6 +536,7 @@ for trans_direi in trans_dire_all:
                 else:
                     iperf3_command = "iperf3 -c"
                     iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + is_parallel
+                    print("\n" + "\n"+ "----------" + iperf3_command + "----------")
                     print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
                     # print(os.system(iperf3_command), file=log_file)
                     # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -550,6 +554,7 @@ for trans_direi in trans_dire_all:
                     for buffer_size in buffer_sizes_all:
                         iperf3_command = "iperf3 -c"
                         iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + bandwidth_i + " " + buffer_size
+                        print("\n" + "\n"+ "----------" + iperf3_command + "----------")
                         print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
                         # print(os.system(iperf3_command), file=log_file)
                         # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -563,6 +568,7 @@ for trans_direi in trans_dire_all:
                 else:
                     iperf3_command = "iperf3 -c"
                     iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + bandwidth_i
+                    print("\n" + "\n"+ "----------" + iperf3_command + "----------")
                     print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
                     # print(os.system(iperf3_command), file=log_file)
                     # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -578,6 +584,7 @@ for trans_direi in trans_dire_all:
                     for buffer_size in buffer_sizes_all:
                         iperf3_command = "iperf3 -c"
                         iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time + " " + buffer_size
+                        print("\n" + "\n"+ "----------" + iperf3_command + "----------")
                         print("\n" + "\n"+ "----------" + iperf3_command + "----------", file=log_file)
                         # print(os.system(iperf3_command), file=log_file)
                         # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
@@ -591,6 +598,7 @@ for trans_direi in trans_dire_all:
             else:
                 iperf3_command = "iperf3 -c"
                 iperf3_command = iperf3_command + " " + server_ip + " " + trans_mode + " " + trans_direi + " " + trans_time
+                print("\n" + "\n"+ "----------" + iperf3_command + "----------")
                 print("\n" + "\n" + "----------" + iperf3_command + "----------", file=log_file)
                 # print(os.system(iperf3_command), file=log_file)
                 # print(subprocess.run(iperf3_command, shell=True, universal_newlines=True), file=log_file)
