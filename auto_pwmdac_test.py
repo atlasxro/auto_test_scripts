@@ -103,9 +103,9 @@ while True:
 
 # 显示结束时间
 end_time = time.localtime(time.time())
-print("\n**********  " + time.strftime('%Y-%m-%d %H:%M:%S',end_time) + "  结束pwmdac测试  **********", sep="")
+print("\n**********  " + time.strftime('%Y-%m-%d %H:%M:%S',end_time) + "  pwmdac test finish  **********", sep="")
 
 #写入结束时间
-log_file.write("\n" + "***************结束测试时间: " + str(time.strftime('%y-%m-%d_%H:%M:%S',end_time)) + "***************")
+log_file.write("\n" + "***************finish time: " + str(time.strftime('%y-%m-%d_%H:%M:%S',end_time)) + "***************")
 log_file.close()
 
