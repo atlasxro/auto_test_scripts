@@ -108,3 +108,4 @@ print("\n**********  " + time.strftime('%Y-%m-%d %H:%M:%S',end_time) + "  结束
 #写入结束时间
 log_file.write("\n" + "***************结束测试时间: " + str(time.strftime('%y-%m-%d_%H:%M:%S',end_time)) + "***************")
 log_file.close()
+
