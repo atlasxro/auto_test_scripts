@@ -13,16 +13,16 @@ import log_gen
 # 显示开始时间
 begin_time = time.localtime(time.time())
 
-print("**********  " + time.strftime('%Y-%m-%d %H:%M:%S',begin_time) + "  开始gmac自动化测试  **********", sep="")
+print("**********  " + time.strftime('%Y-%m-%d %H:%M:%S',begin_time) + "  start gmac test  **********", sep="")
 
 #获取gmac编号
-gmac_num = int(input("请输入需要测试的gmac端口编号, 并确认已连接[0/1]: "))
+gmac_num = int(input("Enter the number of the GMAC port to be tested and confirm that it is connected[0/1]: "))
 while True:
     if gmac_num == 0 or gmac_num ==1:
-        print("测试gmac_",gmac_num,sep="")
+        print("test gmac_",gmac_num,sep="")
         break
     else:
-        gmac_num = int(input("请输入正确的gmac端口编号[0/1]: "))
+        gmac_num = int(input("Please enter the correct number of gmac port[0/1]: "))
         continue
 
 # def mkdir(path): #自定义日志文件夹创建函数
@@ -59,23 +59,23 @@ log_gen.mkfile(log_file_path)
 log_file = open(str(log_file_path), "w")
 
 #写入开始时间
-log_file.write("***************开始测试时间: " + str(time.strftime('%y-%m-%d_%H:%M:%S',begin_time)) + "***************\n")
+log_file.write("***************Start test time: " + str(time.strftime('%y-%m-%d_%H:%M:%S',begin_time)) + "***************\n")
 
 #写入系统信息
 sys_info=open(r"/proc/version", "r")
 sys_info_content = sys_info.read()
-log_file.write("系统信息: " + sys_info_content)
+log_file.write("system information: " + sys_info_content)
 sys_info.close()
 
 #写入python版本
-log_file.write("Python版本: " + platform.python_version() + "\n")
+log_file.write("Python version: " + platform.python_version() + "\n")
 
 #写入iperf版本
 iperf3_version = os.popen("iperf3 -v").readlines()
-log_file.write("iperf3版本: " + iperf3_version[0])
+log_file.write("iperf3 version: " + iperf3_version[0])
 
 #获取目标ip
-server_ip=input("请输入server_ip: ")
+server_ip=input("Please enter the server_ip: ")
 
 #定义获取本机ip函数
 def get_host_ip():
@@ -98,34 +98,34 @@ def host_state(serverip):
 
 while True:
     if host_state(server_ip):
-        ping_result="本机:" + str(host_ip) + " ping " + "服务端:" + server_ip + "成功"
+        ping_result="local host:" + str(host_ip) + " ping " + "server:" + server_ip + "success"
         print(ping_result)
         log_file.write(ping_result + "\n")
         break
     else:
-        ping_result="本机:" + str(host_ip) + " ping " + "服务端:" + server_ip + "失败"
+        ping_result="local host:" + str(host_ip) + " ping " + "server:" + server_ip + "fail"
         print(ping_result)
         # log_file.write(ping_result + "\n")
-        server_ip=input("请重新输入server_ip: ")
+        server_ip=input("Please re-enter入server_ip: ")
         continue
 
 #----------选择传输模式为TCP/UDP----------
-trans_mode = input("请选择传输模式[tcp/udp]: ")
+trans_mode = input("Please choose the transfer mode[tcp/udp]: ")
 while True:
     if trans_mode == "tcp":
-        trans_mode_info = "传输模式为: " + trans_mode
+        trans_mode_info = "Transfer mode: " + trans_mode
         print(trans_mode_info)
         log_file.write(trans_mode_info + "; ")
         trans_mode = ""
         break
     elif trans_mode == "udp":
-        trans_mode_info = "传输模式为: " + trans_mode
+        trans_mode_info = "Transfer mode: " + trans_mode
         print(trans_mode_info)
         log_file.write(trans_mode_info + "; ")
         trans_mode = "-u"
         break
     else:
-        trans_mode = input("请选择正确的传输模式[tcp/udp]: ")
+        trans_mode = input("Please enter the correct option[tcp/udp]: ")
         continue
 
 #----------选择传输方向正向/反向/双向----------
@@ -154,37 +154,37 @@ while True:
 #         trans_dire = input("请选择正确的传输方向(正向/反向/双向[p/r/d]): ")
 #         continue
 trans_dires = []
-trans_dire = input("请选择传输方向(正向/反向/双向[p/r/d])): ")
+trans_dire = input("Please choose the correct transfer direction(Positive/Reverse/Dual[p/r/d])): ")
 while True:
     if len(trans_dires) == 0:
         if trans_dire == "p" or trans_dire == "r" or trans_dire == "d":
             trans_dires.append(trans_dire)
             continue
         else:
-            trans_dire = input("请输入正确的传输方向(正向/反向/双向[p/r/d])): ")
+            trans_dire = input("Please choose the correct one(Positive/Reverse/Dual[p/r/d])): ")
             continue
     elif len(trans_dires) > 0 and len(trans_dires) < 3:
-        trans_dire = input("是否还需测试其余传输方向(正向/反向/双向/退出[p/r/d/q])): ")
+        trans_dire = input("Need other options?(Positive/Reverse/Dual/quit[p/r/d/q])): ")
         if trans_dire == "q":
             break
         else:
             while True:
                 if trans_dire == "p" or trans_dire == "r" or trans_dire == "d":
                     if trans_dire in trans_dires:
-                        trans_dire = input("此传输方向已选择, 请再选一个[p/r/d]: ")
+                        trans_dire = input("This option is selected, please select another one[p/r/d]: ")
                         continue
                     else:
                         trans_dires.append(trans_dire)
                         break
                 else:
-                    trans_dire = input("请输入正确的传输方向(正向/反向/双向[p/r/d])): ")
+                    trans_dire = input("Please enter the correct option(Positive/Reverse/Dual[p/r/d])): ")
                     continue
     else:
-        print("已全部选择！")
+        print("All selected!")
         break
 
 #再次整理并打印trans_dire信息
-trans_dires_info = "测试" + str(len(trans_dires)) +"种传输方向: " + str(trans_dires)
+trans_dires_info = "Test" + str(len(trans_dires)) +"transfer directions: " + str(trans_dires)
 print(trans_dires_info)
 log_file.write(str(trans_dires) + "; ")
 trans_dire_all = []
@@ -197,22 +197,22 @@ for i in trans_dires:
         trans_dire_all.append(" -d")
         
 #----------选择每次传输的持续时间----------
-trans_time = input("请输入传输持续时间(s): ")
+trans_time = input("Please enter the transfer duration(s): ")
 while True:
     if trans_time.endswith("s"):
         trans_time_temp = trans_time[0:-1]
         if trans_time_temp.isnumeric():
-            trans_time_info = "传输持续时间为: " + trans_time
+            trans_time_info = "Transfer duration is: " + trans_time
             print(trans_time_info)
             log_file.write(trans_time_info + "; ")
             trans_time = "-t " + trans_time
             # print(trans_time)
             break
         else:
-            trans_time = input("请检查格式是否正确并重新输入传输持续时间(s): ")
+            trans_time = input("Please check and re-enter the transfer duration(s): ")
             continue
     else:
-        trans_time = input("请检查格式是否正确并重新输入传输持续时间(s): ")
+        trans_time = input("Please check and re-enter the transfer duration(s): ")
         continue
 
 #----------输入带宽----------
@@ -233,7 +233,7 @@ while True:
 #         bandwidth = input("输入格式有误，请重新输入约定带宽[M/G]: ")
 #         continue
 bandwidths = []
-bandwidth = input("请输入bandwidth[M/G/默认(0)]: ")
+bandwidth = input("Please enter the bandwidth[M/G/default(0)]: ")
 while True:
     if len(bandwidths) == 0:
         if bandwidth.isnumeric() and int(bandwidth) == 0:
@@ -248,13 +248,13 @@ while True:
                     bandwidths.append(bandwidth)
                     continue
                 else:
-                    bandwidth = input("请按正确的格式输入bandwidth[M/G]: ")
+                    bandwidth = input("Please check and enter the correct bandwidth[M/G]: ")
                     continue
             else:
-                bandwidth = input("请按正确的格式输入bandwidth[M/G]: ")
+                bandwidth = input("Please check and enter the correct bandwidth[M/G]: ")
                 continue
     else:
-        bandwidth = input("是否还需其余bandwidth[M/G/q(退出)]: ")
+        bandwidth = input("Need other bandwidth[M/G/q(quit)]: ")
         if bandwidth == "q":
             break
         else:
@@ -263,16 +263,16 @@ while True:
                     bandwidth_tem = bandwidth[0:-1]
                     if bandwidth_tem.isnumeric():
                         if bandwidth in bandwidths:
-                            bandwidth = input("此bandwidth已存在, 请再选一个[M/G]: ")
+                            bandwidth = input("This bandwidth is selected, please choose another one[M/G]: ")
                             continue
                         else:
                             bandwidths.append(bandwidth)
                             break
                     else:
-                        bandwidth = input("请按正确的格式输入bandwidth[M/G]: ")
+                        bandwidth = input("Please check and enter the correct bandwidth[M/G]: ")
                         continue
                 else:
-                    bandwidth = input("请按正确的格式输入bandwidth[M/G]: ")
+                    bandwidth = input("Please check and enter the correct bandwidth[M/G]: ")
                     continue
 
 bandwidth_M = []
@@ -305,12 +305,12 @@ for G in bandwidth_G:
 #再次整理并打印bandwidth信息
 bandwidth_all = []#定义一个用到命令中的bandwidth变量数组
 if len(bandwidth_sizes) == 0:
-    bandwidth_info = "采用默认bandwidth参数进行测试"
+    bandwidth_info = "Using default bandwidth to test"
     print(bandwidth_info)
     log_file.write(bandwidth_info + "; ")
     bandwidth_all = ""
 else: 
-    bandwidth_info = "采用" + str(len(bandwidth_sizes)) +"种bandwidth参数进行测试: " + str(bandwidth_sizes)
+    bandwidth_info = "Using" + str(len(bandwidth_sizes)) +"bandwidth to test: " + str(bandwidth_sizes)
     print(bandwidth_info)
     log_file.write(bandwidth_info + "; ")
     for i in bandwidth_sizes:
@@ -340,7 +340,7 @@ else:
 #         continue   
 
 parallels = []
-parallel = input("输入需要的并行传输数[0(不需要)]: ")
+parallel = input("Enter the number of parallel transfers required[0(default)]: ")
 while True:
     if len(parallels) == 0:
         if parallel.isnumeric() and int(parallel) == 0:
@@ -353,23 +353,23 @@ while True:
                 parallels.append(parallel)
 
             else:
-                parallel = input("请按正确的格式输入parallel: ")
+                parallel = input("Please enter with correct format: ")
                 continue
     else:
-        parallel = input("是否还需其余parallel[q(退出)]: ")
+        parallel = input("Need another parallel[q(quit)]: ")
         if parallel == "q":
             break
         else:
             while True:
                 if parallel.isnumeric() and int(parallel) > 0:
                     if parallel in parallels:
-                        parallel = input("此parallel已存在, 请再选一个: ")
+                        parallel = input("This parallel is selected, please choose another one: ")
                         continue
                     else:
                         parallels.append(parallel)
                         break
                 else:
-                    parallel = input("请按正确的格式输入parallel: ")
+                    parallel = input("Please enter with correct format: ")
                     continue
 
 # parallels = parallels.sort()
@@ -377,12 +377,12 @@ while True:
 #再次整理并打印parallels信息
 parallel_all = []#定义一个用到命令中的parallels变量数组
 if len(parallels) == 0:
-    parallel_info = "不采用parallel传输"
+    parallel_info = "do not using parallel transfer mode"
     print(parallel_info)
     log_file.write(parallel_info + "; ")
     parallel_all = ""
 else: 
-    parallel_info = "采用" + str(len(parallels)) +"种Buffer size传输: " + str(parallels)
+    parallel_info = "Using" + str(len(parallels)) +"parallels to test: " + str(parallels)
     print(parallel_info)
     log_file.write(parallel_info + "; ")
     for i in parallels:
@@ -390,7 +390,7 @@ else:
 
 #----------获取需要测试的buffer size----------
 buffers = []
-buffer = input("请输入buffer size[b/k/默认(0)]: ")
+buffer = input("Please enter buffer size[b/k/default(0)]: ")
 while True:
     if len(buffers) == 0:
         if buffer.isnumeric() and int(buffer) == 0:
@@ -406,13 +406,13 @@ while True:
                     buffers.append(buffer)
                     continue
                 else:
-                    buffer = input("请按正确的格式输入buffer size[b/k]: ")
+                    buffer = input("Please enter the correct format of buffer size[b/k]: ")
                     continue
             else:
-                buffer = input("请按正确的格式输入buffer size[b/k]: ")
+                buffer = input("Please enter the correct format of buffer size[b/k]: ")
                 continue
     else:
-        buffer = input("是否还需其余buffer size[b/k/q(退出)]: ")
+        buffer = input("Need another buffer size[b/k/q(quit)]: ")
         if buffer == "q":
             break
         else:
@@ -421,16 +421,16 @@ while True:
                     buffer_tem = buffer[0:-1]
                     if buffer_tem.isnumeric():
                         if buffer in buffers:
-                            buffer = input("此buffer size已存在, 请再选一个[b/k]: ")
+                            buffer = input("This buffer size is selected, please choose another one[b/k]: ")
                             continue
                         else:
                             buffers.append(buffer)
                             break
                     else:
-                        buffer = input("请按正确的格式输入buffer size[b/k]: ")
+                        buffer = input("Please enter the correct format of buffer size[b/k]: ")
                         continue
                 else:
-                    buffer = input("请按正确的格式输入buffer size[b/k]: ")
+                    buffer = input("Please enter the correct format of buffer size[b/k]: ")
                     continue
 
 #buffer size排序
@@ -466,12 +466,12 @@ if len(buffers) > 0:
 
     #再次整理并打印buffer信息
     if len(buffers) == 0:
-        buffer_info = "采用默认Buffer size传输"
+        buffer_info = "Using the default Buffer size to test"
         print(buffer_info)
         log_file.write(buffer_info + "; ")
         buffer_sizes_all = ""
     else: 
-        buffer_info = "采用" + str(len(buffer_sizes)) +"种Buffer size传输: " + str(buffer_sizes)
+        buffer_info = "Using" + str(len(buffer_sizes)) +"Buffer size to test: " + str(buffer_sizes)
         print(buffer_info)
         log_file.write(buffer_info + "; ")
         for i in buffer_sizes:
@@ -613,8 +613,8 @@ for trans_direi in trans_dire_all:
 
 # 显示结束时间
 end_time = time.localtime(time.time())
-print("\n**********  " + time.strftime('%Y-%m-%d %H:%M:%S',end_time) + "  结束gmac自动化测试  **********", sep="")
+print("\n**********  " + time.strftime('%Y-%m-%d %H:%M:%S',end_time) + "  finish gmac test  **********", sep="")
 
 #写入结束时间
-log_file.write("\n" + "***************结束测试时间: " + str(time.strftime('%y-%m-%d_%H:%M:%S',end_time)) + "***************")
+log_file.write("\n" + "***************finish time: " + str(time.strftime('%y-%m-%d_%H:%M:%S',end_time)) + "***************")
 log_file.close()
