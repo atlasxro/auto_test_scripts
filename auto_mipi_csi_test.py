@@ -48,14 +48,14 @@ log_file.write(begin_info + "\n")
 # write system info
 sys_info=open(r"/proc/version", "r")
 sys_info_content = sys_info.read()
-log_file.write("System information: " + sys_info_content)
+log_file.write("*****System information: " + sys_info_content)
 sys_info.close()
 
 # write python version
-log_file.write("Python version: " + platform.python_version() + "\n")
+log_file.write("*****Python version: " + platform.python_version() + "\n")
 
 # build pipeline
-log_file.write("start pipeline:\n")
+log_file.write("*****start pipeline:\n")
 sp_pipeline_start = subprocess.Popen("media-ctl-pipeline.sh -d /dev/media0 -i csiphy0 -s ISP0 -a start", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
 pipeline_start_console_lines = sp_pipeline_start.stdout.readlines()
 for i in pipeline_start_console_lines:
@@ -72,14 +72,14 @@ for i in pipeline_start_console_lines:
 #         log_file.close()
 
 # check the mipi-csi, then write information 
-log_file.write("sensor parameters:\n")
+log_file.write("*****sensor parameters:\n")
 sp_sensor_para = subprocess.Popen("v4l2-ctl -d /dev/video1 -L", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
 sensor_para_console_lines = sp_sensor_para.stdout.readlines()
 for i in sensor_para_console_lines:
     print(i.strip().decode("utf-8"))
     log_file.write(str(i.strip().decode("utf-8")) + "\n") #remove'\n'and'b'
 
-log_file.write("sensor list formats:\n")
+log_file.write("*****sensor list formats:\n")
 sp_sensor_format = subprocess.Popen("v4l2-ctl -d /dev/video1 --list-formats", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
 sensor_format_console_lines = sp_sensor_format.stdout.readlines()
 for i in sensor_format_console_lines:
@@ -94,15 +94,16 @@ for i in sensor_format_console_lines:
 v4l2_command = "v4l2test -d /dev/video1 -f 5 -c -C 0 -W 1920 -H 1080 -m 0 -t 2"
 # os.system(v4l2_command)
 
-sp_v4l2_command = subprocess.Popen(v4l2_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-time.sleep(5)
-sp_v4l2_command.kill()
+sp_v4l2_command = subprocess.Popen("exec " + v4l2_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+time.sleep(10)
+sp_v4l2_command.terminate()
 time.sleep(1)
 # sp_isp_command.kill()
 # time.sleep(1)
 
 # stop pipeline
-log_file.write("stop pipeline:\n")
+# log_file = open(str(log_file_path), "w")
+log_file.write("*****stop pipeline:\n")
 sp_pipeline_stop = subprocess.Popen("media-ctl-pipeline.sh -d /dev/media0 -i csiphy0 -s ISP0 -a stop", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
 pipeline_stop_console_lines = sp_pipeline_stop.stdout.readlines()
 for i in pipeline_stop_console_lines:
@@ -115,14 +116,14 @@ while True:
     if test_result == "y":
         test_result = "mipi-csi test successful!"
         print(test_result+"\n")
-        log_file.write(test_result)
+        log_file.write("*****test_result: " + test_result)
         break
     elif test_result == "n":
         test_result = "mipi-csi test fail!\n"
         note_information = input("Please describe the phenomenon that occurred during the test: ")
         print(test_result+"\n")
-        log_file.write("Note informations: " + test_result)
-        log_file.write(note_information)
+        log_file.write("*****test result: " + test_result + "\n")
+        log_file.write("*****Note informations: " + note_information)
         break
     else:
         test_result = input("Please enter the correct options[y/n]: ")
