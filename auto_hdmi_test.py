@@ -19,7 +19,7 @@ begin_info = "**********  " + time.strftime('%Y-%m-%d %H:%M:%S',begin_time) + " 
 print(begin_info)
 
 #Please check if PWMDAC is connected
-is_connected= input("Please check if the HDMI is connected[y/n]: ")
+is_connected= input("Please check if the HDMI and earphone are connected[y/n]: ")
 while True:
     if is_connected == "y":
         print("Start HDMI testing.\n")
