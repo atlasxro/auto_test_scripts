@@ -21,3 +21,4 @@ def mkfile(file):  #自定义创建文件函数
         logfile.close()
     else:
         print("---  log file: ", file, "exists!  ---", sep="")
+        
