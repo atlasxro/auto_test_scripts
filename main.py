@@ -34,9 +34,21 @@ log_file_all.write("Python version: " + platform.python_version() + "\n")
 # os.system(current_path + r"/auto_gmac_test.py")
 
 # run sd_test
-log_file_all.write("*****auto_sd_test*****")
 import auto_sd_test
-log_file_all.write(auto_sd_test.rmsg + "\n")
-log_file_all.write(auto_sd_test.wmsg + "\n")
+if auto_sd_test.enable == "y":
+    log_file_all.write("*****auto_sd_test*****\n")
+    log_file_all.write(auto_sd_test.rmsg + "\n")
+    log_file_all.write(auto_sd_test.wmsg + "\n")
+else:
+    log_file_all.write("SD not tested!\n")
+    
+# run emmc_test
+import auto_emmc_test
+if auto_emmc_test.enable == "y":
+    log_file_all.write("*****auto_emmc_test*****\n")
+    log_file_all.write(auto_emmc_test.rmsg + "\n")
+    log_file_all.write(auto_emmc_test.wmsg + "\n")
+else:
+    log_file_all.write("eMMC not tested!\n")
 
 log_file_all.close
