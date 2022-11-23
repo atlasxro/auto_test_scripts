@@ -50,5 +50,16 @@ if auto_emmc_test.enable == "y":
     log_file_all.write(auto_emmc_test.wmsg + "\n")
 else:
     log_file_all.write("eMMC not tested!\n")
+    
+# run usb_test
+import auto_usb_test
+if auto_usb_test.enable == "y":
+    log_file_all.write("*****auto_usb_test*****\n")
+    for i in auto_usb_test.rinfo:
+        log_file_all.write(i.strip() + "\n")
+    for i in auto_usb_test.winfo:
+        log_file_all.write(i.strip() + "\n")
+else:
+    log_file_all.write("USB not tested!\n")
 
 log_file_all.close
