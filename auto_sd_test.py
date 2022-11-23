@@ -37,7 +37,10 @@ print("**********  " + time.strftime('%Y-%m-%d %H:%M:%S',begin_time) + "  start 
 #获取当前路径
 current_directory = os.getcwd()
 
-#创建对应gmac的日志目录 
+# # open log_all.txt
+# log_file_all = open(current_directory + r"/log_all.txt", "w+")
+
+#创建对应的日志目录 
 log_directory_name = "sd_log"
 log_gen.mkdir(log_directory_name)  #调用函数
 
@@ -96,15 +99,15 @@ if is_exist_device:
     rspeed = r_speed_info.split(',')[-1].strip()
     rspeed_num = rspeed[0:-4]
     # print(rspeed)
-
     if rspeed != "" and float(rspeed_num) != 0:
-        msg = "SD READ: PASS  read speed: " + rspeed
-        print(msg)
-        log_file.write(msg + "\n")
+        rmsg = "SD READ: PASS  read speed: " + rspeed
+        print(rmsg)
+        log_file.write(rmsg + "\n")
     else:
-        msg = "SD READ: FAIL  read speed slow: " + rspeed
-        print(msg)
-        log_file.write(msg + "\n")
+        rmsg = "SD READ: FAIL  read speed slow: " + rspeed
+        print(rmsg)
+        log_file.write(rmsg + "\n")
+
         
         
     tempfile_w_path = os.path.abspath(os.path.dirname(__file__)) + r"/tempfile_w"
@@ -131,15 +134,21 @@ if is_exist_device:
     # print(wspeed)
 
     if wspeed != "" and float(wspeed_num) >= float(expectspeed):
-        msg = "SD WRITE: PASS  write speed: " + wspeed
-        print(msg)
-        log_file.write(msg + "\n")
+        wmsg = "SD WRITE: PASS  write speed: " + wspeed
+        print(wmsg)
+        log_file.write(wmsg + "\n")
     else:
-        msg = "SD WRITE: FAIL  write speed: " + wspeed
-        print(msg)
-        log_file.write(msg + "\n")      
+        wmsg = "SD WRITE: FAIL  write speed: " + wspeed
+        print(wmsg)
+        log_file.write(wmsg + "\n")
+    
 else:
     print("No sd device exists, please check if the sd device is installed properly")
+    
+# with open(r"./log_all.txt","a") as log_file_all:
+#     log_file_all.write("auto_sd_test:\n")
+#     log_file_all.write(rmsg + "\n")
+#     log_file_all.write(wmsg + "\n")
 
 
 # 显示结束时间
