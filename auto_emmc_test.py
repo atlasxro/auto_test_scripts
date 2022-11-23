@@ -122,6 +122,7 @@ if enable == "y":
         for i in w_results:
             log_file.write(i.strip() + "\n")
         w_speed_info = w_results[2].strip()
+        os.system("rm -f tempfile_w")
         
         # get the read speed
         wspeed = w_speed_info.split(',')[-1].strip()
