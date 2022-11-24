@@ -69,6 +69,7 @@ if enable == "y":
     result_des = ""
     rinfo = []
     winfo = []
+    is_exist_devices = []
     
     while cnt <= usbcnt:
         print("Start USB " + str(cnt) + " test")
@@ -102,7 +103,11 @@ if enable == "y":
         usb_path = r"/dev/" + usb_device
         log_file.write("testing " + usb_device)
         is_exist_device = os.path.exists(usb_path)
-
+        if is_exist_device:
+            is_exist_devices.append("USB port: " + str(cnt) + " plugged USB device " + usb_device)
+        else:
+            is_exist_devices.append("USB port: " + str(cnt) + " is not device plugged")
+                
         # run test
         if is_exist_device:
             # make a temp file to store the results temporary
