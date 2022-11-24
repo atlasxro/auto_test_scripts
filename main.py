@@ -40,7 +40,16 @@ if auto_sd_test.enable == "y":
     log_file_all.write(auto_sd_test.rmsg + "\n")
     log_file_all.write(auto_sd_test.wmsg + "\n")
 else:
-    log_file_all.write("SD not tested!\n")
+    log_file_all.write("#####SD not tested!#####\n")
+
+# run pcie_ssd_test
+import auto_pcie_ssd_test
+if auto_pcie_ssd_test.enable == "y":
+    log_file_all.write("*****auto_pcie_ssd_test*****\n")
+    log_file_all.write(auto_pcie_ssd_test.rmsg + "\n")
+    log_file_all.write(auto_pcie_ssd_test.wmsg + "\n")
+else:
+    log_file_all.write("#####PCIE_SSD not tested!#####\n")
     
 # run emmc_test
 import auto_emmc_test
@@ -49,20 +58,21 @@ if auto_emmc_test.enable == "y":
     log_file_all.write(auto_emmc_test.rmsg + "\n")
     log_file_all.write(auto_emmc_test.wmsg + "\n")
 else:
-    log_file_all.write("eMMC not tested!\n")
+    log_file_all.write("#####eMMC not tested!#####\n")
     
 # run usb_test
 import auto_usb_test
 if auto_usb_test.enable == "y":
     log_file_all.write("*****auto_usb_test*****\n")
     for i in auto_usb_test.is_exist_devices:
-        log_file_all.write(i.strip() + "\n\n")
+        log_file_all.write(i.strip() + "\n")
+    log_file_all.write("\n")
     for i in auto_usb_test.rinfo:
         log_file_all.write(i.strip() + "\n")
     for i in auto_usb_test.winfo:
         log_file_all.write(i.strip() + "\n")
 else:
-    log_file_all.write("USB not tested!\n")
+    log_file_all.write("#####USB not tested!#####\n")
     
 # run gpio_test
 import auto_gpio_test
@@ -72,6 +82,6 @@ if auto_gpio_test.enable == "y":
     for i in auto_gpio_test.test_results:
         log_file_all.write(i + "\n")
 else:
-    log_file_all.write("gpio not tested!\n")
+    log_file_all.write("#####gpio not tested!#####\n")
 
 log_file_all.close
