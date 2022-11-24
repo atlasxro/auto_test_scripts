@@ -55,11 +55,23 @@ else:
 import auto_usb_test
 if auto_usb_test.enable == "y":
     log_file_all.write("*****auto_usb_test*****\n")
+    for i in auto_usb_test.is_exist_devices:
+        log_file_all.write(i.strip() + "\n\n")
     for i in auto_usb_test.rinfo:
         log_file_all.write(i.strip() + "\n")
     for i in auto_usb_test.winfo:
         log_file_all.write(i.strip() + "\n")
 else:
     log_file_all.write("USB not tested!\n")
+    
+# run gpio_test
+import auto_gpio_test
+if auto_gpio_test.enable == "y":
+    log_file_all.write("*****auto_gpio_test*****\n")
+    log_file_all.write(auto_gpio_test.result_info + "\n")
+    for i in auto_gpio_test.test_results:
+        log_file_all.write(i + "\n")
+else:
+    log_file_all.write("gpio not tested!\n")
 
 log_file_all.close
