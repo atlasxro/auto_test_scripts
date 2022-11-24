@@ -3,6 +3,7 @@
 import os
 import time
 import platform
+import configparser
 
 import log_gen
 
@@ -31,59 +32,65 @@ sys_info.close()
 #写入python版本
 log_file_all.write("Python version: " + platform.python_version() + "\n")
 
-# os.system(current_path + r"/auto_gmac_test.py")
+## define cfg_name
+cfg_name = "cfg.ini"
+# instantation the class
+conf = configparser.ConfigParser()
+# import configuration file
+conf.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), cfg_name))
+
 
 # run hdmi_test
-import auto_hdmi_test
-if auto_hdmi_test.enable == "y":
+if conf.get('HDMI', 'enable') == "y":
+    import auto_hdmi_test
     log_file_all.write("*****auto_hdmi_test*****\n")
     if auto_hdmi_test.test_result == "y":
-        log_file_all.write(auto_hdmi_test.test_result_info)
+        log_file_all.write(auto_hdmi_test.test_result_info + "\n")
     else:
         log_file_all.write(auto_hdmi_test.test_result_info)
-        log_file_all.write(auto_hdmi_test.note_information)
+        log_file_all.write(auto_hdmi_test.note_information + "\n")
 else:
     log_file_all.write("#####HDMI not tested!#####\n")
 
 # run dsi_test
-import auto_mipi_dsi_test
-if auto_mipi_dsi_test.enable == "y":
+if conf.get('DSI', 'enable') == "y":
+    import auto_mipi_dsi_test
     log_file_all.write("*****auto_mipi_dsi_test*****\n")
     if auto_mipi_dsi_test.test_result == "y":
-        log_file_all.write(auto_mipi_dsi_test.test_result_info)
+        log_file_all.write(auto_mipi_dsi_test.test_result_info + "\n")
     else:
         log_file_all.write(auto_mipi_dsi_test.test_result_info)
-        log_file_all.write(auto_mipi_dsi_test.note_information)
+        log_file_all.write(auto_mipi_dsi_test.note_information + "\n")
 else:
     log_file_all.write("#####MIPI_DSI not tested!#####\n")
 
 # run csi_test
-import auto_mipi_csi_test
-if auto_mipi_csi_test.enable == "y":
+if conf.get('CSI', 'enable') == "y":
+    import auto_mipi_csi_test
     log_file_all.write("*****auto_mipi_csi_test*****\n")
     if auto_mipi_csi_test.test_result == "y":
-        log_file_all.write(auto_mipi_csi_test.test_result_info)
+        log_file_all.write(auto_mipi_csi_test.test_result_info + "\n")
     else:
         log_file_all.write(auto_mipi_csi_test.test_result_info)
-        log_file_all.write(auto_mipi_csi_test.note_information)
+        log_file_all.write(auto_mipi_csi_test.note_information + "\n")
 else:
     log_file_all.write("#####MIPI_CSI not tested!#####\n")
 
 # run pwmdac_test
-import auto_pwmdac_test
-if auto_pwmdac_test.enable == "y":
+if conf.get('PWMDAC', 'enable') == "y":
+    import auto_pwmdac_test
     log_file_all.write("*****auto_pwmdac_test*****\n")
     if auto_pwmdac_test.test_result == "y":
-        log_file_all.write(auto_pwmdac_test.test_result_info)
+        log_file_all.write(auto_pwmdac_test.test_result_info + "\n")
     else:
         log_file_all.write(auto_pwmdac_test.test_result_info)
-        log_file_all.write(auto_pwmdac_test.note_information)
+        log_file_all.write(auto_pwmdac_test.note_information + "\n")
 else:
     log_file_all.write("#####PWMDAC not tested!#####\n")
 
 # run sd_test
-import auto_sd_test
-if auto_sd_test.enable == "y":
+if conf.get('SD', 'enable') == "y":
+    import auto_sd_test
     log_file_all.write("*****auto_sd_test*****\n")
     log_file_all.write(auto_sd_test.rmsg + "\n")
     log_file_all.write(auto_sd_test.wmsg + "\n")
@@ -91,8 +98,8 @@ else:
     log_file_all.write("#####SD not tested!#####\n")
 
 # run pcie_ssd_test
-import auto_pcie_ssd_test
-if auto_pcie_ssd_test.enable == "y":
+if conf.get('PCIE_SSD', 'enable') == "y":
+    import auto_pcie_ssd_test
     log_file_all.write("*****auto_pcie_ssd_test*****\n")
     log_file_all.write(auto_pcie_ssd_test.rmsg + "\n")
     log_file_all.write(auto_pcie_ssd_test.wmsg + "\n")
@@ -100,8 +107,8 @@ else:
     log_file_all.write("#####PCIE_SSD not tested!#####\n")
     
 # run emmc_test
-import auto_emmc_test
-if auto_emmc_test.enable == "y":
+if conf.get('EMMC', 'enable') == "y":
+    import auto_emmc_test
     log_file_all.write("*****auto_emmc_test*****\n")
     log_file_all.write(auto_emmc_test.rmsg + "\n")
     log_file_all.write(auto_emmc_test.wmsg + "\n")
@@ -109,8 +116,8 @@ else:
     log_file_all.write("#####eMMC not tested!#####\n")
     
 # run usb_test
-import auto_usb_test
-if auto_usb_test.enable == "y":
+if conf.get('USB', 'enable') == "y":
+    import auto_usb_test
     log_file_all.write("*****auto_usb_test*****\n")
     for i in auto_usb_test.is_exist_devices:
         log_file_all.write(i.strip() + "\n")
@@ -123,13 +130,31 @@ else:
     log_file_all.write("#####USB not tested!#####\n")
     
 # run gpio_test
-import auto_gpio_test
-if auto_gpio_test.enable == "y":
+if conf.get('GPIO', 'enable') == "y":
+    import auto_gpio_test
     log_file_all.write("*****auto_gpio_test*****\n")
     log_file_all.write(auto_gpio_test.result_info + "\n")
     for i in auto_gpio_test.test_results:
         log_file_all.write(i + "\n")
 else:
     log_file_all.write("#####gpio not tested!#####\n")
+    
+# run gmac0_test
+if conf.get('GMAC0', 'enable') == "y":
+    import auto_gmac0_test
+    log_file_all.write("*****auto_gmac0_test*****\n")
+    log_file_all.write(auto_gmac0_test.tx_results + "\n")
+    log_file_all.write(auto_gmac0_test.rx_results + "\n")
+else:
+    log_file_all.write("#####gmac0 not tested!#####\n")
+    
+# run gmac1_test
+if conf.get('GMAC1', 'enable') == "y":
+    import auto_gmac1_test
+    log_file_all.write("*****auto_gmac1_test*****\n")
+    log_file_all.write(auto_gmac1_test.tx_results + "\n")
+    log_file_all.write(auto_gmac1_test.rx_results + "\n")
+else:
+    log_file_all.write("#####gmac1 not tested!#####\n")
 
 log_file_all.close
