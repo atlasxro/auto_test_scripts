@@ -8,104 +8,122 @@ import sys
 import platform
 import socket
 import subprocess
+import configparser
 
 import log_gen
 
-# get begin time
-begin_time = time.localtime(time.time())
+# define cfg_name
+cfg_name = "cfg.ini"
+# indicates the location section of configuration in cfg_section
+cfg_section = "PWMDAC"
 
-begin_info = "**********  " + time.strftime('%Y-%m-%d %H:%M:%S',begin_time) + "  pwmdac testing  **********"
+# instantation the class
+conf = configparser.ConfigParser()
 
-print(begin_info)
+# import configuration file
+conf.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), cfg_name))
 
-#Please check if PWMDAC is connected
-is_connected= input("Please check if PWMDAC is connected[y/n]: ")
-while True:
-    if is_connected == "y":
-        print("Start pwmdac testing.\n")
-        break
-    elif is_connected == "n":
-        is_connected= int(input("Please connect the pwmdac[y/n]: "))
-        continue
-    else:
-        is_connected= int(input("Please enter the correct option[y/n]: "))
+# get configuration
+enable = conf.get(cfg_section, 'enable')
 
-#Gets the current path
-current_directory = os.getcwd()
+if enable == "y":
+    # get begin time
+    begin_time = time.localtime(time.time())
 
-# make log dir 
-log_directory_name = r"pwmdac_log/"
-log_gen.mkdir(log_directory_name) 
+    begin_info = "**********  " + time.strftime('%Y-%m-%d %H:%M:%S',begin_time) + "  pwmdac testing  **********"
 
-# make log file
-log_file_path = log_directory_name+"pwmdac_"+str(time.strftime('%y%m%d_%H%M%S',begin_time))+".txt"
-log_gen.mkfile(log_file_path)
+    print(begin_info)
 
-# open log file, preparing write infomation
-log_file = open(str(log_file_path), "w")
+    #Please check if PWMDAC is connected
+    # is_connected= input("Please check if PWMDAC is connected[y/n]: ")
+    is_connected = enable
+    while True:
+        if is_connected == "y":
+            print("Start pwmdac testing.\n")
+            break
+        elif is_connected == "n":
+            is_connected= int(input("Please connect the pwmdac[y/n]: "))
+            continue
+        else:
+            is_connected= int(input("Please enter the correct option[y/n]: "))
 
-# write begin_info
-log_file.write(begin_info + "\n")
+    #Gets the current path
+    current_directory = os.getcwd()
 
-# write system info
-sys_info=open(r"/proc/version", "r")
-sys_info_content = sys_info.read()
-log_file.write("System information: " + sys_info_content)
-sys_info.close()
+    # make log dir 
+    log_directory_name = r"pwmdac_log/"
+    log_gen.mkdir(log_directory_name) 
 
-# write python version
-log_file.write("Python version: " + platform.python_version() + "\n")
+    # make log file
+    log_file_path = log_directory_name+"pwmdac_"+str(time.strftime('%y%m%d_%H%M%S',begin_time))+".txt"
+    log_gen.mkfile(log_file_path)
 
-# check the sound card and write information
-log_file.write("Sound card informations:\n")
-sp_aplay = subprocess.Popen("aplay -l", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-aplay_console_lines = sp_aplay.stdout.readlines()
-for i in aplay_console_lines:
-    print(i.strip().decode("utf-8"))
-    log_file.write(str(i.strip().decode("utf-8")) + "\n") #remove'\n'and'b'
-    
-# check the ffmpeg information and write information
-log_file.write("ffmpeg informations:\n")
-sp_ffmpeg = subprocess.Popen("ffmpeg -version", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-ffmpeg_console_lines = sp_ffmpeg.stdout.readlines()
-for i in ffmpeg_console_lines:
-    print(i.strip().decode("utf-8"))
-    log_file.write(str(i.strip().decode("utf-8")) + "\n") #remove'\n'and'b'
+    # open log file, preparing write infomation
+    log_file = open(str(log_file_path), "w")
 
-# # play the audio information and write information
-# log_file.write("Audio play informations:\n")
-# sp_audio_play = subprocess.Popen("ffmpeg -i audio.wav -f alsa -acodec pcm_s16le hw:0,0", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-# audio_play_console_lines = sp_audio_play.stdout.readlines()
-# for i in audio_play_console_lines:
-#     print(i.strip().decode("utf-8"))
-#     log_file.write(str(i.strip().decode("utf-8")) + "\n") #remove'\n'and'b'
+    # write begin_info
+    log_file.write(begin_info + "\n")
 
-os.system("ffmpeg -i audio.wav -f alsa -acodec pcm_s16le hw:0,0")
+    # write system info
+    sys_info=open(r"/proc/version", "r")
+    sys_info_content = sys_info.read()
+    log_file.write("System information: " + sys_info_content)
+    sys_info.close()
 
-test_result = input("Whether the audio playback is clear, continuous, and free of noise[y/n]: ")
+    # write python version
+    log_file.write("Python version: " + platform.python_version() + "\n")
 
-while True:
-    if test_result == "y":
-        test_result = "pwmdac test successful!"
-        print(test_result+"\n")
-        log_file.write(test_result)
-        break
-    elif test_result == "n":
-        test_result = "pwmdac test fail!\n"
-        note_information = input("Please describe the phenomenon that occurred during the test: ")
-        print(test_result+"\n")
-        log_file.write("Note informations: " + test_result)
-        log_file.write(note_information)
-        break
-    else:
-        test_result = input("Please enter the correct options[y/n]: ")
-        continue
+    # check the sound card and write information
+    log_file.write("Sound card informations:\n")
+    sp_aplay = subprocess.Popen("aplay -l", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+    aplay_console_lines = sp_aplay.stdout.readlines()
+    for i in aplay_console_lines:
+        print(i.strip().decode("utf-8"))
+        log_file.write(str(i.strip().decode("utf-8")) + "\n") #remove'\n'and'b'
+        
+    # check the ffmpeg information and write information
+    log_file.write("ffmpeg informations:\n")
+    sp_ffmpeg = subprocess.Popen("ffmpeg -version", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+    ffmpeg_console_lines = sp_ffmpeg.stdout.readlines()
+    for i in ffmpeg_console_lines:
+        print(i.strip().decode("utf-8"))
+        log_file.write(str(i.strip().decode("utf-8")) + "\n") #remove'\n'and'b'
 
-# 显示结束时间
-end_time = time.localtime(time.time())
-print("\n**********  " + time.strftime('%Y-%m-%d %H:%M:%S',end_time) + "  pwmdac test finish  **********", sep="")
+    # # play the audio information and write information
+    # log_file.write("Audio play informations:\n")
+    # sp_audio_play = subprocess.Popen("ffmpeg -i audio.wav -f alsa -acodec pcm_s16le hw:0,0", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+    # audio_play_console_lines = sp_audio_play.stdout.readlines()
+    # for i in audio_play_console_lines:
+    #     print(i.strip().decode("utf-8"))
+    #     log_file.write(str(i.strip().decode("utf-8")) + "\n") #remove'\n'and'b'
 
-#写入结束时间
-log_file.write("\n" + "***************finish time: " + str(time.strftime('%y-%m-%d_%H:%M:%S',end_time)) + "***************")
-log_file.close()
+    os.system("ffmpeg -i audio.wav -f alsa -acodec pcm_s16le hw:0,0")
 
+    test_result = input("Whether the audio playback is clear, continuous, and free of noise[y/n]: ")
+
+    while True:
+        if test_result == "y":
+            test_result_info = "pwmdac test successful!"
+            print(test_result_info+"\n")
+            log_file.write(test_result)
+            break
+        elif test_result == "n":
+            test_result_info = "pwmdac test fail!\n"
+            note_information = input("Please describe the phenomenon that occurred during the test: ")
+            print(test_result_info+"\n")
+            log_file.write("Note informations: " + test_result_info)
+            log_file.write(note_information)
+            break
+        else:
+            test_result = input("Please enter the correct options[y/n]: ")
+            continue
+
+    # 显示结束时间
+    end_time = time.localtime(time.time())
+    print("\n**********  " + time.strftime('%Y-%m-%d %H:%M:%S',end_time) + "  pwmdac test finish  **********", sep="")
+
+    #写入结束时间
+    log_file.write("\n" + "***************finish time: " + str(time.strftime('%y-%m-%d_%H:%M:%S',end_time)) + "***************")
+    log_file.close()
+else:
+    print("PWMDAC not tested!")

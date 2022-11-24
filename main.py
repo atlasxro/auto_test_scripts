@@ -33,6 +33,54 @@ log_file_all.write("Python version: " + platform.python_version() + "\n")
 
 # os.system(current_path + r"/auto_gmac_test.py")
 
+# run hdmi_test
+import auto_hdmi_test
+if auto_hdmi_test.enable == "y":
+    log_file_all.write("*****auto_hdmi_test*****\n")
+    if auto_hdmi_test.test_result == "y":
+        log_file_all.write(auto_hdmi_test.test_result_info)
+    else:
+        log_file_all.write(auto_hdmi_test.test_result_info)
+        log_file_all.write(auto_hdmi_test.note_information)
+else:
+    log_file_all.write("#####HDMI not tested!#####\n")
+
+# run dsi_test
+import auto_mipi_dsi_test
+if auto_mipi_dsi_test.enable == "y":
+    log_file_all.write("*****auto_mipi_dsi_test*****\n")
+    if auto_mipi_dsi_test.test_result == "y":
+        log_file_all.write(auto_mipi_dsi_test.test_result_info)
+    else:
+        log_file_all.write(auto_mipi_dsi_test.test_result_info)
+        log_file_all.write(auto_mipi_dsi_test.note_information)
+else:
+    log_file_all.write("#####MIPI_DSI not tested!#####\n")
+
+# run csi_test
+import auto_mipi_csi_test
+if auto_mipi_csi_test.enable == "y":
+    log_file_all.write("*****auto_mipi_csi_test*****\n")
+    if auto_mipi_csi_test.test_result == "y":
+        log_file_all.write(auto_mipi_csi_test.test_result_info)
+    else:
+        log_file_all.write(auto_mipi_csi_test.test_result_info)
+        log_file_all.write(auto_mipi_csi_test.note_information)
+else:
+    log_file_all.write("#####MIPI_CSI not tested!#####\n")
+
+# run pwmdac_test
+import auto_pwmdac_test
+if auto_pwmdac_test.enable == "y":
+    log_file_all.write("*****auto_pwmdac_test*****\n")
+    if auto_pwmdac_test.test_result == "y":
+        log_file_all.write(auto_pwmdac_test.test_result_info)
+    else:
+        log_file_all.write(auto_pwmdac_test.test_result_info)
+        log_file_all.write(auto_pwmdac_test.note_information)
+else:
+    log_file_all.write("#####PWMDAC not tested!#####\n")
+
 # run sd_test
 import auto_sd_test
 if auto_sd_test.enable == "y":
