@@ -40,6 +40,32 @@ conf = configparser.ConfigParser()
 conf.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), cfg_name))
 
 
+# run csi_test
+if conf.get('CSI', 'enable') == "y":
+    import auto_mipi_csi_test
+    log_file_all.write("*****auto_mipi_csi_test*****\n")
+    if auto_mipi_csi_test.test_result == "y":
+        log_file_all.write(auto_mipi_csi_test.test_result_info + "\n")
+    else:
+        log_file_all.write(auto_mipi_csi_test.test_result_info)
+        log_file_all.write(auto_mipi_csi_test.note_information + "\n")
+    time.sleep(2)
+else:
+    log_file_all.write("#####MIPI_CSI not tested!#####\n")
+
+# run uvc_test
+if conf.get('UVC', 'enable') == "y":
+    import auto_uvc_test
+    log_file_all.write("*****auto_uvc_test*****\n")
+    if auto_uvc_test.test_result == "y":
+        log_file_all.write(auto_uvc_test.test_result_info + "\n")
+    else:
+        log_file_all.write(auto_uvc_test.test_result_info)
+        log_file_all.write(auto_uvc_test.note_information + "\n")
+    time.sleep(2)
+else:
+    log_file_all.write("#####UVC not tested!#####\n")
+
 # run hdmi_test
 if conf.get('HDMI', 'enable') == "y":
     import auto_hdmi_test
@@ -49,6 +75,7 @@ if conf.get('HDMI', 'enable') == "y":
     else:
         log_file_all.write(auto_hdmi_test.test_result_info)
         log_file_all.write(auto_hdmi_test.note_information + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####HDMI not tested!#####\n")
 
@@ -61,20 +88,9 @@ if conf.get('DSI', 'enable') == "y":
     else:
         log_file_all.write(auto_mipi_dsi_test.test_result_info)
         log_file_all.write(auto_mipi_dsi_test.note_information + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####MIPI_DSI not tested!#####\n")
-
-# run csi_test
-if conf.get('CSI', 'enable') == "y":
-    import auto_mipi_csi_test
-    log_file_all.write("*****auto_mipi_csi_test*****\n")
-    if auto_mipi_csi_test.test_result == "y":
-        log_file_all.write(auto_mipi_csi_test.test_result_info + "\n")
-    else:
-        log_file_all.write(auto_mipi_csi_test.test_result_info)
-        log_file_all.write(auto_mipi_csi_test.note_information + "\n")
-else:
-    log_file_all.write("#####MIPI_CSI not tested!#####\n")
 
 # run pwmdac_test
 if conf.get('PWMDAC', 'enable') == "y":
@@ -85,6 +101,7 @@ if conf.get('PWMDAC', 'enable') == "y":
     else:
         log_file_all.write(auto_pwmdac_test.test_result_info)
         log_file_all.write(auto_pwmdac_test.note_information + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####PWMDAC not tested!#####\n")
 
@@ -94,6 +111,7 @@ if conf.get('SD', 'enable') == "y":
     log_file_all.write("*****auto_sd_test*****\n")
     log_file_all.write(auto_sd_test.rmsg + "\n")
     log_file_all.write(auto_sd_test.wmsg + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####SD not tested!#####\n")
 
@@ -103,6 +121,7 @@ if conf.get('PCIE_SSD', 'enable') == "y":
     log_file_all.write("*****auto_pcie_ssd_test*****\n")
     log_file_all.write(auto_pcie_ssd_test.rmsg + "\n")
     log_file_all.write(auto_pcie_ssd_test.wmsg + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####PCIE_SSD not tested!#####\n")
     
@@ -112,6 +131,7 @@ if conf.get('EMMC', 'enable') == "y":
     log_file_all.write("*****auto_emmc_test*****\n")
     log_file_all.write(auto_emmc_test.rmsg + "\n")
     log_file_all.write(auto_emmc_test.wmsg + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####eMMC not tested!#####\n")
     
@@ -126,6 +146,7 @@ if conf.get('USB', 'enable') == "y":
         log_file_all.write(i.strip() + "\n")
     for i in auto_usb_test.winfo:
         log_file_all.write(i.strip() + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####USB not tested!#####\n")
     
@@ -136,6 +157,7 @@ if conf.get('GPIO', 'enable') == "y":
     log_file_all.write(auto_gpio_test.result_info + "\n")
     for i in auto_gpio_test.test_results:
         log_file_all.write(i + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####gpio not tested!#####\n")
     
@@ -144,6 +166,7 @@ if conf.get('TEMPERATURE', 'enable') == "y":
     import auto_temperature_test
     log_file_all.write("*****auto_temperature_test*****\n")
     log_file_all.write(auto_temperature_test.temp_msg + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####temperature not tested!#####\n")
     
@@ -153,6 +176,7 @@ if conf.get('GMAC0', 'enable') == "y":
     log_file_all.write("*****auto_gmac0_test*****\n")
     log_file_all.write(auto_gmac0_test.tx_results + "\n")
     log_file_all.write(auto_gmac0_test.rx_results + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####gmac0 not tested!#####\n")
      
@@ -162,6 +186,7 @@ if conf.get('GMAC1', 'enable') == "y":
     log_file_all.write("*****auto_gmac1_test*****\n")
     log_file_all.write(auto_gmac1_test.tx_results + "\n")
     log_file_all.write(auto_gmac1_test.rx_results + "\n")
+    time.sleep(2)
 else:
     log_file_all.write("#####gmac1 not tested!#####\n")
 
