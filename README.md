@@ -48,5 +48,5 @@ Automatically identify if a storage device plugged in the USB port and test the 
 * auto_gpio_test.py:  
 Automatically test whether each GPIO port works normally, GPIO ports must be connected in pairs as described as the GPIO part in the cfg.ini before testing.
 
-* Known issues:  
+**Known issues**:  
 After running the main program, running it again may not start MIPI-DSI normally, the reason is unknown, it is recommended to restart the board before each complete testing.
