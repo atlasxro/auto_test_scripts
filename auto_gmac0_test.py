@@ -5,6 +5,7 @@ import os
 import time
 import platform
 import configparser
+import subprocess
 
 import log_gen
 
@@ -88,6 +89,11 @@ if enable == "y":
         expectbaudtcp = conf.get(cfg_section, 'expectbaudtcp')
         # print(expectbaudtcp)
         
+        # timeout
+        def terminate_func(thread_ter, stoptime):
+            time.sleep(stoptime)
+            thread_ter.terminate()
+        
         # TX test
         tx_msg = "\nStart TX test"
         print(tx_msg)
@@ -96,7 +102,9 @@ if enable == "y":
         tempfile_tx_speed = open(str(tempfile_tx_speed_path), 'w')
         tempfile_tx_speed.close()
         iperf3_tx_command = "iperf3 -c " + server_ip + " -b " + bandwidth + " -t 5 " + "-B " + host_ip
-        os.system(iperf3_tx_command + "  2>&1 | tee tempfile_tx_speed")
+        # os.system(iperf3_tx_command + "  2>&1 | tee tempfile_tx_speed")
+        sp_tx_command = subprocess.Popen("exec " + iperf3_tx_command + "  2>&1 | tee tempfile_tx_speed", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+        terminate_func(sp_tx_command, 5 + 2)
         speed_tx_result = open("tempfile_tx_speed", "r")
         speed_tx_results = speed_tx_result.readlines()[-5:-2]
         for i in speed_tx_results:
@@ -123,7 +131,9 @@ if enable == "y":
         tempfile_rx_speed = open(str(tempfile_rx_speed_path), 'w')
         tempfile_rx_speed.close()
         iperf3_rx_command = "iperf3 -c " + server_ip + " -b " + bandwidth + " -t 5 " + "-R -B " + host_ip
-        os.system(iperf3_rx_command + "  2>&1 | tee tempfile_rx_speed")
+        # os.system(iperf3_rx_command + "  2>&1 | tee tempfile_rx_speed")
+        sp_rx_command = subprocess.Popen("exec " + iperf3_rx_command + "  2>&1 | tee tempfile_rx_speed", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+        terminate_func(sp_rx_command, 5 + 2)
         speed_rx_result = open("tempfile_rx_speed", "r")
         speed_rx_results = speed_rx_result.readlines()[-5:-2]
         for i in speed_rx_results:
@@ -142,7 +152,7 @@ if enable == "y":
             print(rx_results)
             log_file.write(rx_results)
     else:
-        ping_result="gmac" + gmac_num + " ip:" + host_ip + " ping " + "server:" + server_ip + "fail, test fail"
+        ping_result="gmac" + str(gmac_num) + " ip:" + host_ip + " ping " + "server:" + server_ip + "fail, test fail"
         print(ping_result)
         log_file.write(ping_result + "\n")
 else:
