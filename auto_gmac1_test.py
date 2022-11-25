@@ -97,7 +97,7 @@ if enable == "y":
         tempfile_tx_speed = open(str(tempfile_tx_speed_path), 'w')
         tempfile_tx_speed.close()
         iperf3_tx_command = "iperf3 -c " + server_ip + " -b " + bandwidth + " -t 5 " + "-B " + host_ip
-        os.system(iperf3_tx_command + "  2>&1 | tee tempfile_tx_speed")
+        os.system(iperf3_tx_command + " 2>&1 | tee tempfile_tx_speed")
         speed_tx_result = open("tempfile_tx_speed", "r")
         speed_tx_results = speed_tx_result.readlines()[-5:-2]
         for i in speed_tx_results:

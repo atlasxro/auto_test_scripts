@@ -72,6 +72,7 @@ if enable == "y":
     host_ip = conf.get(cfg_section, 'boardip')
 
     os.system("ifconfig eth" + str(gmac_num) + " " + host_ip + " netmask 255.255.255.0")
+    os.system("ifconfig")
 
     #----------ping server并判断是否成功----------
     def host_state(serverip):
