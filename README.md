@@ -10,7 +10,7 @@ The main program used to invoke each submodule.
 Configuration file to decide whether to enable a submodule and modify parameters.
 
 * log_gen.py:  
-Log generation module
+Log generation module.
 
 * auto_gmac0/1_test:  
 Test whether the network port is connected and the TCP transmission performance.
