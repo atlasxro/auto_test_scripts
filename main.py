@@ -66,19 +66,6 @@ if conf.get('UVC', 'enable') == "y":
 else:
     log_file_all.write("#####UVC not tested!#####\n")
 
-# run hdmi_test
-if conf.get('HDMI', 'enable') == "y":
-    import auto_hdmi_test
-    log_file_all.write("*****auto_hdmi_test*****\n")
-    if auto_hdmi_test.test_result == "y":
-        log_file_all.write(auto_hdmi_test.test_result_info + "\n")
-    else:
-        log_file_all.write(auto_hdmi_test.test_result_info)
-        log_file_all.write(auto_hdmi_test.note_information + "\n")
-    time.sleep(2)
-else:
-    log_file_all.write("#####HDMI not tested!#####\n")
-
 # run dsi_test
 if conf.get('DSI', 'enable') == "y":
     import auto_mipi_dsi_test
@@ -104,6 +91,19 @@ if conf.get('PWMDAC', 'enable') == "y":
     time.sleep(2)
 else:
     log_file_all.write("#####PWMDAC not tested!#####\n")
+
+# run hdmi_test
+if conf.get('HDMI', 'enable') == "y":
+    import auto_hdmi_test
+    log_file_all.write("*****auto_hdmi_test*****\n")
+    if auto_hdmi_test.test_result == "y":
+        log_file_all.write(auto_hdmi_test.test_result_info + "\n")
+    else:
+        log_file_all.write(auto_hdmi_test.test_result_info)
+        log_file_all.write(auto_hdmi_test.note_information + "\n")
+    time.sleep(2)
+else:
+    log_file_all.write("#####HDMI not tested!#####\n")
 
 # run sd_test
 if conf.get('SD', 'enable') == "y":
