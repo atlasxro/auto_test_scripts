@@ -139,6 +139,14 @@ if conf.get('GPIO', 'enable') == "y":
 else:
     log_file_all.write("#####gpio not tested!#####\n")
     
+# run gpio_test
+if conf.get('TEMPERATURE', 'enable') == "y":
+    import auto_temperature_test
+    log_file_all.write("*****auto_temperature_test*****\n")
+    log_file_all.write(auto_temperature_test.temp_msg + "\n")
+else:
+    log_file_all.write("#####temperature not tested!#####\n")
+    
 # run gmac0_test
 if conf.get('GMAC0', 'enable') == "y":
     import auto_gmac0_test
@@ -147,7 +155,7 @@ if conf.get('GMAC0', 'enable') == "y":
     log_file_all.write(auto_gmac0_test.rx_results + "\n")
 else:
     log_file_all.write("#####gmac0 not tested!#####\n")
-    
+     
 # run gmac1_test
 if conf.get('GMAC1', 'enable') == "y":
     import auto_gmac1_test
