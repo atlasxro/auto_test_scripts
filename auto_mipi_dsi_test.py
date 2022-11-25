@@ -35,7 +35,8 @@ if enable == "y":
     print(begin_info)
 
     # 2-lane or 4-lane
-    mipi2or4 = input("2_lane or 4_lane mipi screen[2/4]: ")
+    # mipi2or4 = input("2_lane or 4_lane mipi screen[2/4]: ")
+    mipi2or4 = conf.get(cfg_section, 'lane')
     while True:
         if int(mipi2or4) == 2:
             log_info = "*****Testing the 2_lane mipi screen.*****\n"
