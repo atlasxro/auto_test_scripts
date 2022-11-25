@@ -107,13 +107,18 @@ if enable == "y":
     # log_file.write("start isp control:\n")
     # os.system(isp_command)
     # sp_isp_command = subprocess.Popen(isp_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-
+    
+    def terminate_func(thread_ter, stoptime):
+        time.sleep(stoptime)
+        thread_ter.terminate()
+        
     v4l2_command = "v4l2test -d /dev/video1 -f 5 -c -C 0 -W 1920 -H 1080 -m 0 -t 2"
     # os.system(v4l2_command)
 
     sp_v4l2_command = subprocess.Popen("exec " + v4l2_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-    time.sleep(10)
-    sp_v4l2_command.terminate()
+    # time.sleep(10)
+    # sp_v4l2_command.terminate()
+    terminate_func(sp_v4l2_command, 10)
     time.sleep(1)
     # sp_isp_command.kill()
     # time.sleep(1)

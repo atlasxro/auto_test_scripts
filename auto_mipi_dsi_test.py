@@ -92,6 +92,10 @@ if enable == "y":
     # write python version
     log_file.write("*****Python version: " + platform.python_version() + "\n")
 
+    def terminate_func(thread_ter, stoptime):
+        time.sleep(stoptime)
+        thread_ter.terminate()
+
     # check the mipi-dsi, then write information  
     log_file.write("*****mipi_dsi informations:\n")
     sp_mipi_dsi = subprocess.Popen("modeprint starfive", stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
@@ -106,8 +110,9 @@ if enable == "y":
         mipi_dsi_command = "modetest -M starfive -a -s 118@35:800x1280 -P 74@35:800x1280 -F tiles"
         
     sp_mipi_dsi_command = subprocess.Popen("exec " + mipi_dsi_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
-    time.sleep(5)
-    sp_mipi_dsi_command.terminate()
+    # time.sleep(5)
+    # sp_mipi_dsi_command.terminate()
+    terminate_func(sp_mipi_dsi_command,10)
     time.sleep(1)
 
 

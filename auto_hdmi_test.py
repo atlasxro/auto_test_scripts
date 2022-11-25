@@ -96,9 +96,15 @@ if enable == "y":
     #     print(i.strip().decode("utf-8"))
     #     log_file.write(str(i.strip().decode("utf-8")) + "\n") #remove'\n'and'b'
 
+    def terminate_func(thread_ter, stoptime):
+        time.sleep(stoptime)
+        thread_ter.terminate()
+        
     # os.system("modetest -M starfive -a -s 116@31:1920x1080 -P 39@31:1920x1080@YUYV -F tiles")
     gst_command = "gst-launch-1.0 -v filesrc location=720p_h264_aac.mp4 ! qtdemux name=demux demux.audio_0 ! queue ! aacparse ! avdec_aac ! audioconvert ! alsasink device=hw:0,1 demux.video_0 ! queue ! h264parse ! omxh264dec ! videoscale ! video/x-raw,width=1280,height=720 ! kmssink driver-name=starfive force-modesetting=1"
-    os.system(gst_command)
+    # os.system(gst_command)
+    sp = subprocess.Popen("exec " + gst_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+    terminate_func(sp,15)
 
     test_result = input("Whether the video playback is clear and continuous, the audio playback is clear, continuous, and free of noise[y/n]: ")
 
