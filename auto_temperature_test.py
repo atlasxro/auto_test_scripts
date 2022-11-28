@@ -26,6 +26,8 @@ conf.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), cfg_name))
 enable = conf.get(cfg_section, 'enable')
 
 if enable == "y":
+    is_pass = ""
+    
     # 显示开始时间
     begin_time = time.localtime(time.time())
 
@@ -69,11 +71,13 @@ if enable == "y":
         temp_command = "cat " +  temp_driver
         sp = subprocess.Popen(temp_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
         temperature = sp.stdout.readline().strip().decode("utf-8")
-        temp_msg = "Temperature driver is exist! value=" + temperature
+        temp_msg = "Temperature driver is exist, test PASS! value=" + temperature
+        is_pass = "y"
         print(temp_msg)
         log_file.write(temp_msg)
     else:
-        temp_msg = "Temperature driver " + temp_driver + " does not exist!"
+        temp_msg = "Temperature driver " + temp_driver + " does not exist, test FAIL!"
+        is_pass = "n"
         print(temp_msg)
         log_file.write(temp_msg)
         

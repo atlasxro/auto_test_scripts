@@ -33,6 +33,10 @@ blockcnt = conf.get(cfg_section, 'blockcnt')
 expectspeed = conf.get(cfg_section, 'expectspeed')
 
 if enable == "y":
+    is_pass = []
+    is_r_pass = []
+    is_w_pass = []
+    
     # show start time
     begin_time = time.localtime(time.time())
 
@@ -71,7 +75,8 @@ if enable == "y":
     winfo = []
     is_exist_devices = []
     
-    while cnt <= usbcnt:
+    while cnt <= usbcnt: 
+        
         print("Start USB " + str(cnt) + " test")
         if cnt == 1:
             usb_device = usb1device
@@ -95,6 +100,7 @@ if enable == "y":
         # print(wrong_result)
         if int(wrong_result) > 0:
             str_wrong_msg = "wrong"
+            is_pass.append("n")
         else:
             str_wrong_msg = ""
         print(str_wrong_msg)
@@ -106,7 +112,10 @@ if enable == "y":
         if is_exist_device:
             is_exist_devices.append("USB port: " + str(cnt) + " plugged USB device " + usb_device)
         else:
-            is_exist_devices.append("USB port: " + str(cnt) + " is not device plugged")
+            is_exist_devices.append("USB port: " + str(cnt) + " is not storage device plugged")
+            is_pass.append("nt")
+            rinfo.append("USB port: " + str(cnt) + " is not storage device plugged")
+            winfo.append("")
                 
         # run test
         if is_exist_device:
@@ -137,11 +146,13 @@ if enable == "y":
             # print(rspeed)
             if rspeed != "" and float(rspeed_num) != 0:
                 rmsg = "USB device " + str(cnt) + ":" + usb_device + " READ: PASS  read speed: " + rspeed
+                is_r_pass.append("y")
                 print(rmsg)
                 log_file.write(rmsg + "\n")
                 rinfo.append(rmsg)
             else:
                 rmsg = "USB device " + str(cnt) + ":" + usb_device + " READ: FAIL  read speed slow: " + rspeed
+                is_r_pass.append("n")
                 print(rmsg)
                 log_file.write(rmsg + "\n")
                 rinfo.append(rmsg)
@@ -168,19 +179,25 @@ if enable == "y":
             # print(wspeed)
 
             if wspeed != "" and float(wspeed_num) >= float(expectspeed):
-                wmsg = "USB device " + str(cnt) + ":" + usb_device + " WRITE: PASS  write speed: " + wspeed + "\n"
+                wmsg = "USB device " + str(cnt) + ":" + usb_device + " WRITE: PASS!  write speed: " + wspeed + "\n"
+                is_w_pass.append("y")
                 print(wmsg)
                 log_file.write(wmsg + "\n")
                 winfo.append(wmsg)
             else:
-                wmsg = "USB device " + str(cnt) + ":" + usb_device + " WRITE: FAIL  write speed: " + wspeed + "\n"
+                wmsg = "USB device " + str(cnt) + ":" + usb_device + " WRITE: FAIL!  write speed: " + wspeed + "\n"
+                is_w_pass.append("n")
                 print(wmsg)
                 log_file.write(wmsg + "\n")
                 winfo.append(wmsg)
-            
         else:
             print("No usb device " + str(cnt) + " exists, please check if the usb device is installed properly")
-        
+            is_r_pass.append("nt")
+            is_w_pass.append("nt")     
+        if is_r_pass[cnt-1] == "y" and is_w_pass[cnt-1] == "y":
+            is_pass.append("y")
+        elif is_r_pass[cnt-1] == "n" or is_w_pass[cnt-1] == "n":
+            is_pass.append("n")
         cnt+=1
     
     # 显示结束时间

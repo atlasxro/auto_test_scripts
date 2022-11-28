@@ -30,6 +30,10 @@ blocksize = conf.get(cfg_section, 'blocksize')
 blockcnt = conf.get(cfg_section, 'blockcnt')
 expectspeed = conf.get(cfg_section, 'expectspeed')
 if enable == "y":
+    is_pass = ""
+    is_w_pass = ""
+    is_r_pass = ""
+    
     # 显示开始时间
     begin_time = time.localtime(time.time())
 
@@ -102,10 +106,12 @@ if enable == "y":
         # print(rspeed)
         if rspeed != "" and float(rspeed_num) != 0:
             rmsg = "SD READ: PASS  read speed: " + rspeed
+            is_r_pass = "y"
             print(rmsg)
             log_file.write(rmsg + "\n")
         else:
             rmsg = "SD READ: FAIL  read speed slow: " + rspeed
+            is_r_pass = "n"
             print(rmsg)
             log_file.write(rmsg + "\n")
    
@@ -133,13 +139,21 @@ if enable == "y":
         # print(wspeed)
 
         if wspeed != "" and float(wspeed_num) >= float(expectspeed):
-            wmsg = "SD WRITE: PASS  write speed: " + wspeed
+            wmsg = "SD WRITE: PASS!  write speed: " + wspeed
+            is_w_pass = "y"
             print(wmsg)
             log_file.write(wmsg + "\n")
         else:
-            wmsg = "SD WRITE: FAIL  write speed: " + wspeed
+            wmsg = "SD WRITE: FAIL!  write speed: " + wspeed
+            is_w_pass = "n"
             print(wmsg)
             log_file.write(wmsg + "\n")
+        
+                    
+        if is_r_pass == "y" and is_w_pass == "y":
+            is_pass = "y"
+        else:
+            is_pass = "n"
     
     else:
         print("No sd device exists, please check if the sd device is installed properly")

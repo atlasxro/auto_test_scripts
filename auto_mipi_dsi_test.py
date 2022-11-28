@@ -27,6 +27,8 @@ conf.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), cfg_name))
 enable = conf.get(cfg_section, 'enable')
 
 if enable == "y":
+    is_pass = ""
+    
     # get begin time
     begin_time = time.localtime(time.time())
 
@@ -120,13 +122,15 @@ if enable == "y":
 
     while True:
         if test_result == "y":
-            test_result_info = "mipi_dsi test successful!"
+            test_result_info = "MIPI-DSI test PASS!"
+            is_pass = "y"
             print(test_result_info+"\n")
             log_file.write(test_result_info)
             break
         elif test_result == "n":
-            test_result_info = "mipi_dsi test fail!\n"
+            test_result_info = "MIPI-DSI test FAIL!\n"
             note_information = input("Please describe the phenomenon that occurred during the test: ")
+            is_pass = "n"
             print(test_result_info+"\n")
             log_file.write("Note informations: " + test_result_info)
             log_file.write(note_information)

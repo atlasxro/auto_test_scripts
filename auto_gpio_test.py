@@ -25,6 +25,8 @@ conf.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), cfg_name))
 enable = conf.get(cfg_section, 'enable')
 
 if enable == "y":
+    is_pass = ""
+    
     # show start time
     begin_time = time.localtime(time.time())
 
@@ -210,11 +212,13 @@ if enable == "y":
             test_results.append(pinnum1_msg)
     
     if failcnt == 0:
-        result_info = "gpio test PASS!"
+        result_info = "GPIO test PASS!"
+        is_pass = "y"
         print("\n" + result_info)
         log_file.write("\n" + result_info + "\n")
     else:
-        result_info = "gpio test FAIL!"
+        result_info = "GPIO test FAIL!"
+        is_pass = "n"
         print("\n" + result_info)
         log_file.write("\n" + result_info + "\n")
         for i in test_results:

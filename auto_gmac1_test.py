@@ -115,7 +115,7 @@ if enable == "y":
         speed_tx_info = speed_tx_info[index_tx_speed-6:index_tx_speed].strip()
         # print(speed_tx_info)
         os.system("rm -f tempfile_tx_speed")
-        if int(speed_tx_info) >= int(expectbaudtcp):
+        if float(speed_tx_info) >= float(expectbaudtcp):
             tx_results = "ETH" + str(gmac_num) + " TCP TX SPEED PASS: " + speed_tx_info + " Mbits/sec"
             print(tx_results)
             log_file.write(tx_results)
@@ -144,17 +144,23 @@ if enable == "y":
         speed_rx_info = speed_rx_info[index_rx_speed-6:index_rx_speed].strip()
         print(speed_rx_info)
         os.system("rm -f tempfile_rx_speed")
-        if int(speed_rx_info) >= int(expectbaudtcp):
+        if float(speed_rx_info) >= float(expectbaudtcp):
             rx_results = "ETH" + str(gmac_num) + " TCP RX SPEED PASS: " + speed_rx_info + " Mbits/sec"
             print(rx_results)
             log_file.write(rx_results)
         else:
             rx_results =  "ETH" + str(gmac_num) + " TCP RX SPEED FAIL: " + speed_rx_info + " Mbits/sec"
             print(rx_results)
-            log_file.write(rx_results)
+            log_file.write(rx_results)   
+        if float(speed_tx_info) >= float(expectbaudtcp) and float(speed_rx_info) >= float(expectbaudtcp):
+            is_pass = "y"
+        else:
+            is_pass = "n"
     else:
         ping_result="gmac" + str(gmac_num) + " ip:" + host_ip + " ping " + "server:" + server_ip + "fail, test fail"
+        is_pass = "n"
         print(ping_result)
         log_file.write(ping_result + "\n")
+
 else:
     print("GMAC" + str(gmac_num) + " not tested!")
