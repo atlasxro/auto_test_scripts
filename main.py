@@ -265,7 +265,7 @@ for i in pass_results:
 log_file_all.write("\nFAIL items:\n")
 for i in fail_results:
     log_file_all.write(i)
-log_file_all.write("\nNo test items:\n")
+log_file_all.write("\nUntested items:\n")
 for i in no_test:
     log_file_all.write(i)
 

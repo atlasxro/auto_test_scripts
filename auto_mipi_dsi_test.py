@@ -128,7 +128,7 @@ if enable == "y":
             log_file.write(test_result_info)
             break
         elif test_result == "n":
-            test_result_info = "MIPI-DSI test FAIL!\n"
+            test_result_info = "MIPI-DSI test FAIL!"
             note_information = input("Please describe the phenomenon that occurred during the test: ")
             is_pass = "n"
             print(test_result_info+"\n")
