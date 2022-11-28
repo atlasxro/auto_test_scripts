@@ -46,7 +46,7 @@ no_test = []
 # run csi_test
 if conf.get('CSI', 'enable') == "y":
     import auto_mipi_csi_test
-    log_file_all.write("*****auto_mipi_csi_test*****\n")
+    # log_file_all.write("*****auto_mipi_csi_test*****\n")
     if auto_mipi_csi_test.test_result == "y":
         pass_results.append(auto_mipi_csi_test.test_result_info + "\n")
         # log_file_all.write(auto_mipi_csi_test.test_result_info + "\n")
@@ -57,12 +57,12 @@ if conf.get('CSI', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####MIPI_CSI not tested!#####\n")
-    no_test.append("#####MIPI_CSI not tested!#####\n")
+    no_test.append("MIPI_CSI not tested!\n")
 
 # run uvc_test
 if conf.get('UVC', 'enable') == "y":
     import auto_uvc_test
-    log_file_all.write("*****auto_uvc_test*****\n")
+    # log_file_all.write("*****auto_uvc_test*****\n")
     if auto_uvc_test.test_result == "y":
         pass_results.append(auto_uvc_test.test_result_info + "\n")
         # log_file_all.write(auto_uvc_test.test_result_info + "\n")
@@ -73,12 +73,12 @@ if conf.get('UVC', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####UVC not tested!#####\n")
-    no_test.append("#####UVC not tested!#####\n")
+    no_test.append("UVC not tested!\n")
 
 # run dsi_test
 if conf.get('DSI', 'enable') == "y":
     import auto_mipi_dsi_test
-    log_file_all.write("*****auto_mipi_dsi_test*****\n")
+    # log_file_all.write("*****auto_mipi_dsi_test*****\n")
     if auto_mipi_dsi_test.test_result == "y":
         # log_file_all.write(auto_mipi_dsi_test.test_result_info + "\n")
         pass_results.append(auto_mipi_dsi_test.test_result_info + "\n")
@@ -89,12 +89,12 @@ if conf.get('DSI', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####MIPI_DSI not tested!#####\n")
-    no_test.append("#####MIPI_DSI not tested!#####\n")
+    no_test.append("MIPI_DSI not tested!\n")
 
 # run pwmdac_test
 if conf.get('PWMDAC', 'enable') == "y":
     import auto_pwmdac_test
-    log_file_all.write("*****auto_pwmdac_test*****\n")
+    # log_file_all.write("*****auto_pwmdac_test*****\n")
     if auto_pwmdac_test.test_result == "y":
         pass_results.append(auto_pwmdac_test.test_result_info + "\n")
         # log_file_all.write(auto_pwmdac_test.test_result_info + "\n")
@@ -105,12 +105,12 @@ if conf.get('PWMDAC', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####PWMDAC not tested!#####\n")
-    no_test.append("#####PWMDAC not tested!#####\n")
+    no_test.append("PWMDAC not tested!\n")
 
 # run hdmi_test
 if conf.get('HDMI', 'enable') == "y":
     import auto_hdmi_test
-    log_file_all.write("*****auto_hdmi_test*****\n")
+    # log_file_all.write("*****auto_hdmi_test*****\n")
     if auto_hdmi_test.test_result == "y":
         pass_results.append(auto_hdmi_test.test_result_info + "\n")
         # log_file_all.write(auto_hdmi_test.test_result_info + "\n")
@@ -121,12 +121,12 @@ if conf.get('HDMI', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####HDMI not tested!#####\n")
-    no_test.append("#####HDMI not tested!#####\n")
+    no_test.append("HDMI not tested!\n")
 
 # run sd_test
 if conf.get('SD', 'enable') == "y":
     import auto_sd_test
-    log_file_all.write("*****auto_sd_test*****\n")
+    # log_file_all.write("*****auto_sd_test*****\n")
     if auto_sd_test.is_pass:
         # log_file_all.write(auto_sd_test.rmsg + "\n")
         # log_file_all.write(auto_sd_test.wmsg + "\n")
@@ -136,12 +136,12 @@ if conf.get('SD', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####SD not tested!#####\n")
-    no_test.append("#####SD not tested!#####\n")
+    no_test.append("SD not tested!\n")
 
 # run pcie_ssd_test
 if conf.get('PCIE_SSD', 'enable') == "y":
     import auto_pcie_ssd_test
-    log_file_all.write("*****auto_pcie_ssd_test*****\n")
+    # log_file_all.write("*****auto_pcie_ssd_test*****\n")
     if auto_pcie_ssd_test.is_pass == "y":
         # log_file_all.write(auto_pcie_ssd_test.rmsg + "\n")
         # log_file_all.write(auto_pcie_ssd_test.wmsg + "\n")
@@ -151,12 +151,12 @@ if conf.get('PCIE_SSD', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####PCIE_SSD not tested!#####\n")
-    no_test.append("#####PCIE_SSD not tested!#####\n")
+    no_test.append("PCIE_SSD not tested!\n")
     
 # run emmc_test
 if conf.get('EMMC', 'enable') == "y":
     import auto_emmc_test
-    log_file_all.write("*****auto_emmc_test*****\n")
+    # log_file_all.write("*****auto_emmc_test*****\n")
     if auto_emmc_test.is_pass == "y":
         # log_file_all.write(auto_emmc_test.rmsg + "\n")
         # log_file_all.write(auto_emmc_test.wmsg + "\n")
@@ -166,12 +166,12 @@ if conf.get('EMMC', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####eMMC not tested!#####\n")
-    no_test.append("#####eMMC not tested!#####\n")
+    no_test.append("eMMC not tested!\n")
     
 # run usb_test
 if conf.get('USB', 'enable') == "y":
     import auto_usb_test
-    log_file_all.write("*****auto_usb_test*****\n")
+    # log_file_all.write("*****auto_usb_test*****\n")
     # for i in auto_usb_test.is_exist_devices:
     #     log_file_all.write(i.strip() + "\n")
     # log_file_all.write("\n")
@@ -191,18 +191,18 @@ if conf.get('USB', 'enable') == "y":
                 num+=1
                 continue
             else:
-                no_test.append("###" + auto_usb_test.rinfo[num] + "###" + "\n")
+                no_test.append("" + auto_usb_test.rinfo[num] + "" + "\n")
                 num+=1
                 continue
     time.sleep(2)
 else:
     # log_file_all.write("#####USB not tested!#####\n")
-    no_test.append("#####USB not tested!#####\n")
+    no_test.append("USB not tested!\n")
     
 # run gpio_test
 if conf.get('GPIO', 'enable') == "y":
     import auto_gpio_test
-    log_file_all.write("*****auto_gpio_test*****\n")
+    # log_file_all.write("*****auto_gpio_test*****\n")
     if auto_gpio_test.is_pass == "y":
         # log_file_all.write(auto_gpio_test.result_info + "\n")
         pass_results.append(auto_gpio_test.result_info + "\n")
@@ -213,12 +213,12 @@ if conf.get('GPIO', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####gpio not tested!#####\n")
-    no_test.append("#####gpio not tested!#####\n")
+    no_test.append("GPIO not tested!\n")
     
 # run temperature_test
 if conf.get('TEMPERATURE', 'enable') == "y":
     import auto_temperature_test
-    log_file_all.write("*****auto_temperature_test*****\n")
+    # log_file_all.write("*****auto_temperature_test*****\n")
     if auto_temperature_test.is_pass == "y":
         # log_file_all.write(auto_temperature_test.temp_msg + "\n")
         pass_results.append(auto_temperature_test.temp_msg + "\n")
@@ -227,12 +227,12 @@ if conf.get('TEMPERATURE', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####temperature not tested!#####\n")
-    no_test.append("#####temperature not tested!#####\n")
+    no_test.append("temperature not tested!\n")
     
 # run gmac0_test
 if conf.get('GMAC0', 'enable') == "y":
     import auto_gmac0_test
-    log_file_all.write("*****auto_gmac0_test*****\n")
+    # log_file_all.write("*****auto_gmac0_test*****\n")
     if auto_gmac0_test.is_pass == "y":
         # log_file_all.write(auto_gmac0_test.tx_results + "\n")
         # log_file_all.write(auto_gmac0_test.rx_results + "\n")
@@ -242,12 +242,12 @@ if conf.get('GMAC0', 'enable') == "y":
     time.sleep(2)
 else:
     # log_file_all.write("#####gmac0 not tested!#####\n")
-    no_test.append("#####gmac0 not tested!#####\n")
+    no_test.append("gmac0 not tested!\n")
      
 # run gmac1_test
 if conf.get('GMAC1', 'enable') == "y":
     import auto_gmac1_test
-    log_file_all.write("*****auto_gmac1_test*****\n")
+    # log_file_all.write("*****auto_gmac1_test*****\n")
     if auto_gmac1_test.is_pass == "y":
         # log_file_all.write(auto_gmac1_test.tx_results + "\n")
         # log_file_all.write(auto_gmac1_test.rx_results + "\n")
@@ -256,8 +256,8 @@ if conf.get('GMAC1', 'enable') == "y":
         fail_results.append(auto_gmac1_test.tx_results + "\t" + auto_gmac1_test.rx_results + "\n")
     time.sleep(2)
 else:
-    log_file_all.write("#####gmac1 not tested!#####\n")
-    no_test.append("#####gmac1 not tested!#####\n")
+    # log_file_all.write("#####gmac1 not tested!#####\n")
+    no_test.append("gmac1 not tested!\n")
 
 log_file_all.write("\nPASS items:\n")
 for i in pass_results:
